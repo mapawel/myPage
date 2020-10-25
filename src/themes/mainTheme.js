@@ -1,6 +1,7 @@
 const mainTheme = {
   color: {
     primary: '#18760030',
+    primaryOpacity: '#18760010',
     secondary: '#1F1F1F',
     back: '#081205',
     particles: '#284A25',

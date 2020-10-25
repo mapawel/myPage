@@ -3,11 +3,13 @@ import React from 'react';
 import RootTemplate from 'templates/RootTemplate';
 import Header from 'components/organisms/Header';
 import TechSkills from 'components/organisms/TechSkills';
+import PersonalInfo from 'components/organisms/PersonalInfo';
 
 const Root = () => (
   <RootTemplate>
     <Header />
     <TechSkills />
+    <PersonalInfo />
   </RootTemplate>
 );
 
