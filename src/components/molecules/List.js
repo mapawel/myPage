@@ -13,6 +13,9 @@ gsap.registerPlugin(ScrollTrigger);
 const StyledContainer = styled.div`
   position: relative;
   margin-bottom: 8rem;
+  &:last-child{
+  margin-bottom: 1rem;
+  }
 
   
   @media screen and (min-width: ${breakpoint.S}) {
