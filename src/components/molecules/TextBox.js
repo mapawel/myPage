@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import Heading from 'components/atoms/Heading';
 import Triangle from 'components/atoms/Triangle';
 import Paragraph from 'components/atoms/Paragraph';
 import Rect from 'components/atoms/Rect';
 import { breakpoint } from 'breakpoints';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // import PropTypes from 'prop-types';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const StyledContainer = styled.div`
   position: relative;
@@ -37,11 +41,11 @@ const StyledHeading = styled(Heading)`
 
 const StyledParagraph = styled(Paragraph)`
   margin: ${({ theme }) => `${theme.fontSize.s} 0`};
-  margin-left: ${({ id }) => (id & 1) ? '2rem' : null};
+  margin-left: ${({ id }) => ((id & 1) ? '2rem' : null)};
 
   @media screen and (min-width: ${breakpoint.M}) {
     margin: ${({ theme }) => `${theme.fontSize.l} 0`};
-    margin-left: ${({ id }) => (id & 1) ? '4rem' : null};
+    margin-left: ${({ id }) => ((id & 1) ? '4rem' : null)};
     }
 `;
 
@@ -73,16 +77,39 @@ const StyledTriangle = styled(Triangle)`
     }
 `;
 
-const TextBox = ({ rect, triangle, data = { title: '', content: [] } }) => (
-  <StyledContainer>
-    <StyledHeading bold>{data.title.toUpperCase()}</StyledHeading>
-    {data.content.map((content, index) => (
-      <StyledParagraph bold id={index} key={index}>{content}</StyledParagraph>
-    ))}
-    {rect && <StyledRect />}
-    {triangle && <StyledTriangle />}
-  </StyledContainer>
-);
+const TextBox = ({ rect, triangle, data = { title: '', content: [] } }) => {
+  const rectRef = useRef(null);
+  const triangleRef = useRef(null);
+
+  const pulseAnim = [
+    { scale: '1.02' },
+    {
+      scale: '0.99',
+      duration: 2,
+      yoyo: true,
+      repeat: -1,
+      scrollTrigger:
+      {
+        trigger: rectRef.current,
+        start: 'top 50%',
+      },
+    }];
+
+  useEffect(() => {
+    gsap.fromTo(rectRef.current, ...pulseAnim);
+    gsap.fromTo(triangleRef.current, ...pulseAnim);
+  });
+  return (
+    <StyledContainer>
+      <StyledHeading bold>{data.title.toUpperCase()}</StyledHeading>
+      {data.content.map((content, index) => (
+        <StyledParagraph bold id={index} key={index}>{content}</StyledParagraph>
+      ))}
+      {rect && <StyledRect ref={rectRef} />}
+      {triangle && <StyledTriangle ref={triangleRef} />}
+    </StyledContainer>
+  );
+};
 
 // TextBox.propTypes = {
 

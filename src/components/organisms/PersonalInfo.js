@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Wrapper from 'templates/Wrapper';
 import styled from 'styled-components';
 import TwoColumns from 'templates/TwoColumns';
@@ -12,8 +12,11 @@ import graduateIcon from 'assets/icons/graduate.svg';
 import kidIcon from 'assets/icons/kid.svg';
 import hobbyIcon from 'assets/icons/hobby.svg';
 import { breakpoint } from 'breakpoints';
-
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // import PropTypes from 'prop-types';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const personalInfoList = [
   {
@@ -77,14 +80,16 @@ const StyledColumn = styled.div`
   margin: 0 auto;
 
   @media screen and (min-width: ${breakpoint.L}) {
-    order: ${({ invert }) => invert ? -1 : null};
-    padding: ${({ invert }) => invert ? '0 10rem 0 0' : '0 0 0 10rem'};
+    order: ${({ invert }) => (invert ? -1 : null)};
+    padding: ${({ invert }) => (invert ? '0 10rem 0 0' : '0 0 0 10rem')};
     }
 `;
 
 const PersonalInfo = () => {
   const [iconsFirsArr, setIconsFirsArr] = useState([]);
   const [iconsSecondArr, setIconsSecondArr] = useState([]);
+  const firstIconsArrRef = useRef(null);
+  const secondIconsArrRef = useRef(null);
   useEffect(() => {
     let iconsBreakPoint;
     if (personalInfoIcons) {
@@ -93,6 +98,22 @@ const PersonalInfo = () => {
       setIconsSecondArr(personalInfoIcons.slice(iconsBreakPoint, personalInfoIcons.length));
     }
   }, []);
+  useEffect(() => {
+    const iconsAnimTarget = (triggerElement) => ({
+      x: '0',
+      opacity: 1,
+      stagger: 0.35,
+      duration: 0.4,
+      scrollTrigger:
+      {
+        trigger: triggerElement,
+        start: 'top 50%',
+      },
+    });
+
+    gsap.fromTo(firstIconsArrRef.current.children, { x: '+=500', opacity: 0 }, iconsAnimTarget(firstIconsArrRef.current));
+    gsap.fromTo(secondIconsArrRef.current.children, { x: '-=500', opacity: 0 }, iconsAnimTarget(secondIconsArrRef.current));
+  });
   return (
     <section>
       <Wrapper>
@@ -101,7 +122,7 @@ const PersonalInfo = () => {
         </SectionHeading>
         <StyledTwoColumns>
           <TextBox data={personalInfoList[0]} rect />
-          <StyledColumn>
+          <StyledColumn ref={firstIconsArrRef}>
             {iconsFirsArr.map((element, index) => (
               <IconInfo key={index} title={element.title} content={element.content} icon={element.icon} />
             ))}
@@ -109,7 +130,7 @@ const PersonalInfo = () => {
         </StyledTwoColumns>
         <StyledTwoColumns>
           <TextBox data={personalInfoList[1]} triangle />
-          <StyledColumn invert>
+          <StyledColumn invert ref={secondIconsArrRef}>
             {iconsSecondArr.map((element, index) => (
               <IconInfo key={index} title={element.title} content={element.content} icon={element.icon} />
             ))}

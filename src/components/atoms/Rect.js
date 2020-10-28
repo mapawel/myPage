@@ -10,10 +10,10 @@ const Svg = styled.svg`
     stroke-width: 90;
 `;
 
-const Rect = ({ className }) => (
-    <Svg className={className} viewBox="0 0 500 500">
+const Rect = React.forwardRef(({ className }, ref) => (
+    <Svg ref={ref} className={className} viewBox="0 0 500 500">
         <rect width="500" height="500" />
     </Svg>
-);
+));
 
 export default Rect;

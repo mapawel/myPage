@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ReactSVG } from 'react-svg'
+import { ReactSVG } from 'react-svg';
 import Heading from 'components/atoms/Heading';
 import Paragraph from 'components/atoms/Paragraph';
 import { breakpoint } from 'breakpoints';
@@ -52,26 +52,22 @@ const StyledHeading = styled(Heading)`
     }
 `;
 
-const IconInfo = ({ title = '', content = [], icon }) => {
-  return (
-    <StyledContainer>
-      <StyledIconBox>
+const IconInfo = ({ title = '', content = [], icon }) => (
+  <StyledContainer>
+    <StyledIconBox>
       <StyledReactSVG src={icon} />
-      </StyledIconBox>
-      <StyledTxtBox>
-    <StyledHeading>{title.toUpperCase()}</StyledHeading>
-    {content.map((bullet, index) => (
-      <Paragraph key={index}>{bullet}</Paragraph>
-    ))}
-      </StyledTxtBox>
-    </StyledContainer>
-  );
-};
-
+    </StyledIconBox>
+    <StyledTxtBox>
+      <StyledHeading>{title.toUpperCase()}</StyledHeading>
+      {content.map((bullet, index) => (
+        <Paragraph key={index}>{bullet}</Paragraph>
+      ))}
+    </StyledTxtBox>
+  </StyledContainer>
+);
 
 // IconInfo.propTypes = {
 
 // };
-
 
 export default IconInfo;

@@ -10,10 +10,10 @@ const Svg = styled.svg`
     stroke-width: 65;
 `;
 
-const Triangle = ({ className }) => (
-    <Svg className={className} viewBox="0 0 1000 893">
+const Triangle = React.forwardRef(({ className }, ref) => (
+    <Svg ref={ref} className={className} viewBox="0 0 1000 893">
         <polygon points="500,100 900,793 100,793" />
     </Svg>
-);
+));
 
 export default Triangle;

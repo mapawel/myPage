@@ -156,24 +156,17 @@ const StyledButton = styled(Button)`
     }
 `;
 
-const StyledBox = styled.div`
+const StyledTriangle = styled(Triangle)`
   position: absolute;
   z-index: -1;
-  width: 300px;
-  height: 300px;
-  top: 0;
-  left: 0;
-`;
-
-const StyledTriangle = styled(Triangle)`
-  position: relative;
   transform:  rotate(15deg);
   width: 300px;
   height: 300px;
-  top: 10%;
+  top: -10%;
   left: 25%;
 
   @media screen and (min-width: ${breakpoint.S}) {
+    top: -30%;
     width: 500px;
     height: 500px;
     }
@@ -181,13 +174,12 @@ const StyledTriangle = styled(Triangle)`
   @media screen and (min-width: ${breakpoint.L}) {
     width: 800px;
     height: 800px;
-    top: -20%;
+    top: 0;
     left: 70%;
     }
 
   @media screen and (min-width: ${breakpoint.L}) {
-    top: -10%;
-    left: 80%;
+    left: 35%;
     }
 
   @media screen and (min-width: ${breakpoint.XL}) {
@@ -229,9 +221,7 @@ const Header = () => {
       <Wrapper>
         <StyledTwoColumns>
           <StyledTxtBox ref={txtBoxRef}>
-          <StyledBox ref={triangleRef}>
-            <StyledTriangle />
-          </StyledBox>
+            <StyledTriangle ref={triangleRef} />
             <StyledHeaderTxt>
               welcome!
               <br />
