@@ -8,10 +8,13 @@ import { breakpoint } from 'breakpoints';
 
 const StyledContainer = styled.div`
   position: relative;
-  max-width: 46rem;
-  margin: 2rem auto 0;
-  margin-bottom: 10rem;
+  max-width: 34rem;
   flex-shrink: 0;
+  flex-grow: 0;
+
+  @media screen and (min-width: ${breakpoint.XS}) {
+    max-width: 42rem;
+    }
 
   @media screen and (min-width: ${breakpoint.M}) {
     max-width: 66rem;
@@ -22,7 +25,7 @@ const StyledRect = styled(Rect)`
   position: absolute;
   width: 54rem;
   height: 54rem;
-  top: -1rem;
+  top: 0;
   left: -5rem;
   transform: rotate(5deg);
 
@@ -38,10 +41,15 @@ const StyledHeading = styled(Heading)`
   font-size: ${({ theme }) => theme.fontSize.m};
 
   @media screen and (max-width: 390px) {
-  font-size: 3.4rem;
+    font-size: 3.4rem;
+    }
+
+  @media screen and (min-width: ${breakpoint.XS}) {
+    margin-bottom: 3rem;
     }
 
   @media screen and (min-width: ${breakpoint.S}) {
+    margin-bottom: 2rem;
     font-size: 4.8rem;
     }
 
@@ -50,13 +58,25 @@ const StyledHeading = styled(Heading)`
     }
 `;
 
+const StyledParagraph = styled(Paragraph)`
+  text-align: center;
+`;
+
 const StyledImgBox = styled.div`
   position: relative;
-  height: 36rem;
+  height: 30rem;
   margin-bottom: 2rem;
 
+  @media screen and (min-width: ${breakpoint.XS}) {
+    height: 36rem;
+    }
+
+  @media screen and (min-width: ${breakpoint.S}) {
+    height: 32rem;
+    }
+
   @media screen and (min-width: ${breakpoint.M}) {
-    height: 46rem;
+    height: 43rem;
     }
 `;
 
@@ -91,7 +111,7 @@ const ProjectBox = ({ title = '', images = [], description = '' }) => (
         <StyledImg key={index} src={image} />
       )) }
     </StyledImgBox>
-    <Paragraph>{description}</Paragraph>
+    <StyledParagraph>{description}</StyledParagraph>
     <StyledRect />
   </StyledContainer>
   </div>

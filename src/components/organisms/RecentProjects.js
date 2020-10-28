@@ -61,45 +61,54 @@ const projectsList = [
   },
 ];
 
+const StyledSlideBox = styled.div`
+  width: 380rem;
+  height: 100vh;
+  display: flex;
+  flex-wrap: nowrap;
+
+  @media screen and (min-width: ${breakpoint.M}) {
+    width: 560rem;
+    }
+
+  @media screen and (min-width: ${breakpoint.M}) {
+    width: 660rem;
+    }
+`;
+
 const RecentProjects = () => {
   const projectsRef = useRef(null);
-  const projectsBoxRef = useRef(null);
   useEffect(() => {
-    const sections = gsap.utils.toArray(projectsRef.current.children);
+    const projects = gsap.utils.toArray(projectsRef.current.children);
+    // ScrollTrigger.refresh();
 
-    gsap.to(sections, {
-      xPercent: -100 * (sections.length - 1),
+    gsap.to(projects, {
+      xPercent: -100 * (projects.length - 1),
       ease: 'none',
+      onInterrupt: () => ScrollTrigger.refresh(),
+      onStart: () => ScrollTrigger.refresh(),
       scrollTrigger: {
         trigger: projectsRef.current,
         pin: true,
         scrub: 1,
-        start: 'top +20%',
-        // snap: 1 / (sections.length - 1),
-        // base vertical scrolling on how wide the container is so it feels more natural.
-        end: () => "+=" + projectsRef.current.offsetWidth
+        start: 'top +10%',
+        end: () => `+=${projectsRef.current.offsetWidth}`,
       },
     });
-  });
+  }, []);
   return (
     <section>
       <Wrapper>
         <SectionHeading>
           {'<recent projects />'}
         </SectionHeading>
-        <div
-          style={{
-            width: '360rem',
-            height: '100vh',
-            display: 'flex',
-            flexWrap: 'nowrap',
-          }}
+        <StyledSlideBox
           ref={projectsRef}
         >
           {projectsList.map(({ title, images, description }, index) => (
             <ProjectBox key={index} title={title} images={images} description={description} />
           ))}
-        </div>
+        </StyledSlideBox>
       </Wrapper>
     </section>
   );
