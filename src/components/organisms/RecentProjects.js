@@ -66,6 +66,11 @@ const StyledSlideBox = styled.div`
   height: 100vh;
   display: flex;
   flex-wrap: nowrap;
+  padding-left: 1rem;
+
+  @media screen and (min-width: ${breakpoint.S}) {
+    padding-left: 9rem;
+    }
 
   @media screen and (min-width: ${breakpoint.M}) {
     width: 560rem;
