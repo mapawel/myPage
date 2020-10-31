@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Heading from 'components/atoms/Heading';
 import Paragraph from 'components/atoms/Paragraph';
@@ -100,7 +100,7 @@ const StyledImg = styled.div`
   position: absolute;
   z-index: 0;
   width: calc(100% - 80px);
-  height: calc((100% - 80px)/3*2);
+  height: 150px;
   border: ${({ theme }) => `1px solid ${theme.color.textSecondary}`};
   background-image: ${({ src }) => `url(${src})`};
   background-size: cover;
@@ -135,6 +135,14 @@ const StyledImg = styled.div`
     z-index: 2;
     transform: translateY(-50%);
   }
+
+  @media screen and (min-width: ${breakpoint.XS}) {
+    height: 180px;
+    }
+
+  @media screen and (min-width: ${breakpoint.M}) {
+    height: 320px;
+    }
 `;
 
 const StyledButton = styled(Button)`
@@ -151,6 +159,10 @@ const StyledHedingBox = styled.div`
   :hover{
   opacity: .5;
   }
+
+  @media screen and (min-width: ${breakpoint.M}) {
+    padding-right: 8rem;
+    }
 `;
 
 const StyledToolBox = styled.div`
@@ -226,12 +238,23 @@ const StyledReactSVG = styled(ReactSVG)`
   right: 0;
   width: 4rem;
 
+  @media screen and (min-width: ${breakpoint.M}) {
+    top: 2rem;
+    width: 7rem;
+    }
 `;
 
-const ProjectBox = ({ title = '', images = [], description = '', id }) => {
+const StyledInnerSliderBox = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;;
+`;
+
+const ProjectBox = ({ title = '', images = [], description = '' }) => {
   const [isToolVisible, setToolVisible] = useState(false);
   return (
-    <div id={id} style={{ width: '100%', height: '100vh' }}>
+    <StyledInnerSliderBox>
       <StyledContainer>
         <StyledHedingBox onClick={() => setToolVisible(true)}>
           <StyledHeading>{title.toUpperCase()}</StyledHeading>
@@ -252,7 +275,7 @@ const ProjectBox = ({ title = '', images = [], description = '', id }) => {
           </StyledButtonBox>
         </StyledToolBox>
       </StyledContainer>
-    </div>
+    </StyledInnerSliderBox>
   );
 };
 

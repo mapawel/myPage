@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Wrapper from 'templates/Wrapper';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import SectionHeading from 'components/atoms/SectionHeading';
-import rightIcon from 'assets/icons/right.svg';
 import { ReactSVG } from 'react-svg';
+import scrollIcon from 'assets/icons/scroll.svg';
 import { breakpoint } from 'breakpoints';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -28,10 +28,10 @@ import webpage1Image from 'assets/images/webpage1.jpg';
 import webpage2Image from 'assets/images/webpage2.jpg';
 import webpage3Image from 'assets/images/webpage3.jpg';
 
-import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+// import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 
 gsap.registerPlugin(ScrollTrigger);
-gsap.registerPlugin(ScrollToPlugin);
+// gsap.registerPlugin(ScrollToPlugin);
 
 const projectsList = [
   {
@@ -60,15 +60,24 @@ const projectsList = [
     description: 'HTML, CSS/SASS, RWD, Bootstrap elements, JavaScript, Slick, RWD, example of a standard web page',
   },
   {
-    title: 'full active menu',
+    title: 'active menu',
     images: [menu1Image, menu2Image],
     description: 'JavaScript responsive menu for mobile and desktop with scroll spy, magic line, animated burger, animated. Element to use on web pages.',
   },
 ];
 
+const pulse = keyframes`
+  from {
+    opacity: .3;
+  }
+  to {
+    opacity: .8;
+  }
+`;
+
 const StyledSlideBox = styled.div`
   width: 380rem;
-  height: 100vh;
+  height: calc(100vh - 70px);
   display: flex;
   flex-wrap: nowrap;
   padding-left: 1rem;
@@ -87,50 +96,54 @@ const StyledSlideBox = styled.div`
 `;
 
 const StyledReactSvg = styled(ReactSVG)`
+  display: ${({ scroll }) => (scroll ? 'block' : 'none')};
   position: fixed;
   z-index: 100;
-  bottom: 3rem;
-  right: 3rem;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
   width: 5rem;
   height: 5rem;
-  color: lime;
-  cursor: pointer;
-`
+  color: ${({ theme }) => theme.color.textPrimary};
+  animation: ${pulse} .5s infinite alternate;
+`;
 
 const RecentProjects = () => {
+  const [isScrollVisible, setScrollVisible] = useState(false);
   const projectsRef = useRef(null);
   useEffect(() => {
-    const projects = gsap.utils.toArray(projectsRef.current.children);
-    // ScrollTrigger.refresh();
+    let sliderTop;
+    const getSliderPosition = () => {
+      sliderTop = projectsRef.current.getBoundingClientRect().top;
+      if (sliderTop < 100) setScrollVisible(true);
+      else setScrollVisible(false);
+    };
+    window.addEventListener('resize', getSliderPosition);
+    window.addEventListener('scroll', getSliderPosition);
 
+    const projects = gsap.utils.toArray(projectsRef.current.children);
     gsap.to(projects, {
       xPercent: -100 * (projects.length - 1),
       ease: 'none',
       onInterrupt: () => ScrollTrigger.refresh(),
       onStart: () => ScrollTrigger.refresh(),
+      onComplete: () => setScrollVisible(false),
       scrollTrigger: {
         trigger: projectsRef.current,
         pin: true,
         scrub: 1,
-        start: 'top +10%',
+        start: 'top 70',
         end: () => `+=${projectsRef.current.offsetWidth}`,
       },
     });
   }, []);
 
-  const go = () => {
-    const test = projectsRef.current.style.width.split('px')[0] *1 / (projectsList.length *1 -1)
-    console.log(test);
-    gsap.to(window, 1, { scrollTo: {y: `+=${test}`} });
-  }
-
   return (
-    <section >
+    <section>
       <Wrapper>
-        <SectionHeading >
+        <SectionHeading>
           {'<recent projects />'}
         </SectionHeading>
-        <StyledReactSvg src={rightIcon} onClick={go} />
         <StyledSlideBox
           ref={projectsRef}
         >
@@ -138,6 +151,7 @@ const RecentProjects = () => {
             <ProjectBox key={index} title={title} images={images} description={description} id={`test${index}`} />
           ))}
         </StyledSlideBox>
+        <StyledReactSvg src={scrollIcon} scroll={isScrollVisible} />
       </Wrapper>
     </section>
   );
