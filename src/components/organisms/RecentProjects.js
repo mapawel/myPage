@@ -76,9 +76,9 @@ const pulse = keyframes`
 `;
 
 const StyledSlideBox = styled.div`
+  display: ${({ isDesktop }) => isDesktop ? 'flex' : 'none'};
   width: 380rem;
   height: calc(100vh - 70px);
-  display: flex;
   flex-wrap: nowrap;
   padding-left: 1rem;
 
@@ -95,8 +95,13 @@ const StyledSlideBox = styled.div`
     }
 `;
 
+const StyledMobileBox = styled.div`
+  display: ${({ isDesktop }) => isDesktop ? 'none' : 'flex'};
+  flex-direction: column;
+  align-items: center;
+`;
+
 const StyledReactSvg = styled(ReactSVG)`
-  display: ${({ scroll }) => (scroll ? 'block' : 'none')};
   position: fixed;
   z-index: 100;
   top: 1rem;
@@ -110,21 +115,36 @@ const StyledReactSvg = styled(ReactSVG)`
 
 const RecentProjects = () => {
   const [isScrollVisible, setScrollVisible] = useState(false);
+  const [isDesktop, setIsDestkop] = useState(false);
+  const desktopBreakpoint = breakpoint.M.split('px')[0] * 1;
   const projectsRef = useRef(null);
+
   useEffect(() => {
     let sliderTop;
-    const getSliderPosition = () => {
+    const handleSliderVisibility = () => {
       sliderTop = projectsRef.current.getBoundingClientRect().top;
-      if (sliderTop < 100) setScrollVisible(true);
+      if (sliderTop !== 0 && sliderTop < 100) setScrollVisible(true);
       else setScrollVisible(false);
     };
-    window.addEventListener('resize', getSliderPosition);
-    window.addEventListener('scroll', getSliderPosition);
+    window.addEventListener('resize', handleSliderVisibility);
+    window.addEventListener('scroll', handleSliderVisibility);
+  }, []);
 
+  useEffect(() => {
+    const getWidth = () => {
+      if (window.innerWidth >= desktopBreakpoint) setIsDestkop(true);
+      else setIsDestkop(false);
+    };
+    window.addEventListener('resize', getWidth);
+    getWidth();
+  }, []);
+
+  useEffect(() => {
     const projects = gsap.utils.toArray(projectsRef.current.children);
     gsap.to(projects, {
       xPercent: -100 * (projects.length - 1),
       ease: 'none',
+      overwrite: 'false',
       onInterrupt: () => ScrollTrigger.refresh(),
       onStart: () => ScrollTrigger.refresh(),
       onComplete: () => setScrollVisible(false),
@@ -138,6 +158,8 @@ const RecentProjects = () => {
     });
   }, []);
 
+  const test = () => console.log('da daaad da daaaaa');
+
   return (
     <section>
       <Wrapper>
@@ -146,12 +168,21 @@ const RecentProjects = () => {
         </SectionHeading>
         <StyledSlideBox
           ref={projectsRef}
+          isDesktop={isDesktop}
+          onLoadStart={test}
         >
           {projectsList.map(({ title, images, description }, index) => (
-            <ProjectBox key={index} title={title} images={images} description={description} id={`test${index}`} />
+            <ProjectBox key={index} title={title} images={images} description={description} />
           ))}
         </StyledSlideBox>
-        <StyledReactSvg src={scrollIcon} scroll={isScrollVisible} />
+        <StyledMobileBox
+          isDesktop={isDesktop}
+        >
+          {projectsList.map(({ title, images, description }, index) => (
+            <ProjectBox key={index} title={title} images={images} description={description} mobile />
+          ))}
+        </StyledMobileBox>
+        {isDesktop && isScrollVisible && <StyledReactSvg src={scrollIcon} />}
       </Wrapper>
     </section>
   );

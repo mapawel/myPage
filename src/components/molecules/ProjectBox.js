@@ -19,6 +19,10 @@ const StyledContainer = styled.div`
     max-width: 42rem;
     }
 
+  @media screen and (min-width: ${breakpoint.S}) {
+    max-width: ${({ mobile }) => mobile ? '50rem' : '42rem'};
+    }
+
   @media screen and (min-width: ${breakpoint.M}) {
     max-width: 66rem;
     }
@@ -245,17 +249,18 @@ const StyledReactSVG = styled(ReactSVG)`
 `;
 
 const StyledInnerSliderBox = styled.div`
-  width: 100%;
-  height: 100%;
+  width: ${({ mobile }) => mobile ? 'none' : '100%'};
+  height: ${({ mobile }) => mobile ? 'none' : '100%'};
+  margin: ${({ mobile }) => mobile ? '8rem 0' : 'none'};
   display: flex;
-  align-items: center;;
+  align-items: center;
 `;
 
-const ProjectBox = ({ title = '', images = [], description = '' }) => {
+const ProjectBox = ({ title = '', images = [], description = '', mobile }) => {
   const [isToolVisible, setToolVisible] = useState(false);
   return (
-    <StyledInnerSliderBox>
-      <StyledContainer>
+    <StyledInnerSliderBox mobile={mobile}>
+      <StyledContainer mobile={mobile}>
         <StyledHedingBox onClick={() => setToolVisible(true)}>
           <StyledHeading>{title.toUpperCase()}</StyledHeading>
           <StyledReactSVG src={eyeIcon} />
