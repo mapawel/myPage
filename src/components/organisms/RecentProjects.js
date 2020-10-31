@@ -1,7 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Wrapper from 'templates/Wrapper';
 import styled from 'styled-components';
 import SectionHeading from 'components/atoms/SectionHeading';
+import rightIcon from 'assets/icons/right.svg';
+import { ReactSVG } from 'react-svg';
 import { breakpoint } from 'breakpoints';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -26,7 +28,10 @@ import webpage1Image from 'assets/images/webpage1.jpg';
 import webpage2Image from 'assets/images/webpage2.jpg';
 import webpage3Image from 'assets/images/webpage3.jpg';
 
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+
 gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollToPlugin);
 
 const projectsList = [
   {
@@ -81,6 +86,17 @@ const StyledSlideBox = styled.div`
     }
 `;
 
+const StyledReactSvg = styled(ReactSVG)`
+  position: fixed;
+  z-index: 100;
+  bottom: 3rem;
+  right: 3rem;
+  width: 5rem;
+  height: 5rem;
+  color: lime;
+  cursor: pointer;
+`
+
 const RecentProjects = () => {
   const projectsRef = useRef(null);
   useEffect(() => {
@@ -101,17 +117,25 @@ const RecentProjects = () => {
       },
     });
   }, []);
+
+  const go = () => {
+    const test = projectsRef.current.style.width.split('px')[0] *1 / (projectsList.length *1 -1)
+    console.log(test);
+    gsap.to(window, 1, { scrollTo: {y: `+=${test}`} });
+  }
+
   return (
-    <section>
+    <section >
       <Wrapper>
-        <SectionHeading>
+        <SectionHeading >
           {'<recent projects />'}
         </SectionHeading>
+        <StyledReactSvg src={rightIcon} onClick={go} />
         <StyledSlideBox
           ref={projectsRef}
         >
           {projectsList.map(({ title, images, description }, index) => (
-            <ProjectBox key={index} title={title} images={images} description={description} />
+            <ProjectBox key={index} title={title} images={images} description={description} id={`test${index}`} />
           ))}
         </StyledSlideBox>
       </Wrapper>

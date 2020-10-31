@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import Heading from 'components/atoms/Heading';
 import Paragraph from 'components/atoms/Paragraph';
 import Button from 'components/atoms/Button';
 import Rect from 'components/atoms/Rect';
 import { breakpoint } from 'breakpoints';
+import { ReactSVG } from 'react-svg';
+import eyeIcon from 'assets/icons/eye.svg';
 // import PropTypes from 'prop-types';
 
 const StyledContainer = styled.div`
@@ -70,15 +72,15 @@ const StyledImgBox = styled.div`
   height: 30rem;
   margin-bottom: 2rem;
 
-  &:hover>div::after{
+  :hover>div::after{
     opacity: 0;
   }
 
-  &:hover>div:nth-child(1) {
-      transform: translate(-40%, -30%);
+  :hover>div:nth-child(1) {
+      transform: translate(-40%, -7%);
     }
-    &:hover>div:nth-child(2) {
-      transform: translate(10%, 30%);
+    :hover>div:nth-child(2) {
+      transform: translate(10%, 7%);
     }
 
   @media screen and (min-width: ${breakpoint.XS}) {
@@ -103,7 +105,7 @@ const StyledImg = styled.div`
   background-image: ${({ src }) => `url(${src})`};
   background-size: cover;
   background-repeat: no-repeat;
-  &::after{
+  ::after{
     content: '';
     position: absolute;
     top: 0;
@@ -115,19 +117,19 @@ const StyledImg = styled.div`
     transition: opacity .35s;
   }
 
-  &:nth-child(1){
+  :nth-child(1){
     left: 50%;
     z-index: 5;
     transform: translate(-50%, 0);
     transition: transform .25s;
   }
-  &:nth-child(2){
+  :nth-child(2){
     bottom: 0;
     z-index: 0;
     transform: translate(0, 0);
     transition: transform .25s;
   }
-  &:nth-child(3){
+  :nth-child(3){
     top: 50%;
     right: 0;
     z-index: 2;
@@ -141,14 +143,18 @@ const StyledButton = styled(Button)`
 
 const StyledHedingBox = styled.div`
   position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  padding-right: 6rem;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity .3s;
+
+  :hover{
+  opacity: .5;
+  }
 `;
 
 const StyledToolBox = styled.div`
   position: absolute;
-  z-index: ${({ isToolVisible }) => (isToolVisible ? 5 : -1)};
   width: 54rem;
   height: 54rem;
   top: 0;
@@ -156,12 +162,16 @@ const StyledToolBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  transform: rotate(5deg);
-  padding: 9rem;
+  padding: 0 13rem;
+  border: ${({ theme }) => `1px solid ${theme.color.textPrimary}`};
   background-color: #000000e2;
-  opacity: ${({ isToolVisible }) => (isToolVisible ? 1 : 0)};
-  transition: opacity .4s;
+  transform: ${({ isToolVisible }) => (isToolVisible ? 'rotate(5deg) scale(1)' : 'rotate(5deg) scale(0)')};
+  transition: transform .3s;
   
+  @media screen and (max-width: 439px) {
+    padding: 0 18rem 0 8rem;
+    }
+
   @media screen and (min-width: ${breakpoint.M}) {
     width: 76rem;
     height: 76rem;
@@ -169,20 +179,63 @@ const StyledToolBox = styled.div`
 `;
 
 const StyledButtonBox = styled.div`
+  position: relative;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   transform: rotate(-5deg);
 `;
 
-const ProjectBox = ({ title = '', images = [], description = '' }) => {
+const StyledStandardButton = styled.button`
+  position: absolute;
+  top: 4rem;
+  right: 0;
+  width: 6rem;
+  height: 6rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  ::after, ::before{
+    content: '';
+    position: absolute;
+    width: 80%;
+    height: 1px;
+    top: 50%;
+    left: 0;
+    background-color: ${({ theme }) => theme.color.textPrimary};;
+    opacity: 1;
+    transition: opacity .3s;
+  }
+  ::after{
+    transform: rotate(45deg);
+  }
+  ::before{
+    transform: rotate(-45deg);
+  }
+  :hover::after, :hover::before{
+    opacity: .5;
+  }
+
+`;
+
+const StyledReactSVG = styled(ReactSVG)`
+  color: ${({ theme }) => theme.color.textPrimary};
+  position: absolute;
+  top: 1rem;
+  right: 0;
+  width: 4rem;
+
+`;
+
+const ProjectBox = ({ title = '', images = [], description = '', id }) => {
   const [isToolVisible, setToolVisible] = useState(false);
   return (
-    <div style={{ width: '100%', height: '100vh' }}>
+    <div id={id} style={{ width: '100%', height: '100vh' }}>
       <StyledContainer>
-        <StyledHedingBox>
+        <StyledHedingBox onClick={() => setToolVisible(true)}>
           <StyledHeading>{title.toUpperCase()}</StyledHeading>
-          <h1 onMouseOver={() => setToolVisible(true)}>?</h1>
+          <StyledReactSVG src={eyeIcon} />
         </StyledHedingBox>
         <StyledImgBox>
           {images.length !== 0 && images.map((image, index) => (
@@ -193,6 +246,7 @@ const ProjectBox = ({ title = '', images = [], description = '' }) => {
         <StyledRect />
         <StyledToolBox isToolVisible={isToolVisible} onMouseLeave={() => setToolVisible(false)}>
           <StyledButtonBox>
+            <StyledStandardButton onClick={() => setToolVisible(false)} />
             <StyledButton>visit live page</StyledButton>
             <StyledButton>check code source</StyledButton>
           </StyledButtonBox>
