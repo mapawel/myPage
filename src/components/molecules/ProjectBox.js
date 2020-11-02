@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Heading from 'components/atoms/Heading';
 import Paragraph from 'components/atoms/Paragraph';
@@ -7,6 +7,7 @@ import Rect from 'components/atoms/Rect';
 import { breakpoint } from 'breakpoints';
 import { ReactSVG } from 'react-svg';
 import eyeIcon from 'assets/icons/eye.svg';
+import OpenBoxProvider from 'Providers/OpenBoxProvider';
 // import PropTypes from 'prop-types';
 
 const StyledContainer = styled.div`
@@ -20,7 +21,7 @@ const StyledContainer = styled.div`
     }
 
   @media screen and (min-width: ${breakpoint.S}) {
-    max-width: ${({ mobile }) => mobile ? '50rem' : '42rem'};
+    max-width: ${({ mobile }) => (mobile ? '50rem' : '42rem')};
     }
 
   @media screen and (min-width: ${breakpoint.M}) {
@@ -68,6 +69,7 @@ const StyledHeading = styled(Heading)`
 const StyledParagraph = styled(Paragraph)`
   text-align: center;
   opacity: ${({ isToolVisible }) => (isToolVisible ? 0 : 1)};
+  cursor: pointer;
 `;
 
 const StyledImgBox = styled.div`
@@ -75,6 +77,7 @@ const StyledImgBox = styled.div`
   z-index: 0;
   height: 30rem;
   margin-bottom: 2rem;
+  cursor: pointer;
 
   :hover>div::after{
     opacity: 0;
@@ -249,40 +252,45 @@ const StyledReactSVG = styled(ReactSVG)`
 `;
 
 const StyledInnerSliderBox = styled.div`
-  width: ${({ mobile }) => mobile ? 'none' : '100%'};
-  height: ${({ mobile }) => mobile ? 'none' : '100%'};
-  margin: ${({ mobile }) => mobile ? '8rem 0' : 'none'};
+  width: ${({ mobile }) => (mobile ? 'none' : '100%')};
+  height: ${({ mobile }) => (mobile ? 'none' : '100%')};
+  margin: ${({ mobile }) => (mobile ? '8rem 0' : 'none')};
   display: flex;
   align-items: center;
 `;
 
-const ProjectBox = ({ title = '', images = [], description = '', mobile }) => {
-  const [isToolVisible, setToolVisible] = useState(false);
-  return (
+const ProjectBox = ({
+  title = '', images = [], description = '', mobile,
+}) => (
     <StyledInnerSliderBox mobile={mobile}>
-      <StyledContainer mobile={mobile}>
-        <StyledHedingBox onClick={() => setToolVisible(true)}>
-          <StyledHeading>{title.toUpperCase()}</StyledHeading>
-          <StyledReactSVG src={eyeIcon} />
-        </StyledHedingBox>
-        <StyledImgBox>
-          {images.length !== 0 && images.map((image, index) => (
-            <StyledImg key={index} src={image} />
-          ))}
-        </StyledImgBox>
-        <StyledParagraph isToolVisible={isToolVisible}>{description}</StyledParagraph>
-        <StyledRect />
-        <StyledToolBox isToolVisible={isToolVisible} onMouseLeave={() => setToolVisible(false)}>
-          <StyledButtonBox>
-            <StyledStandardButton onClick={() => setToolVisible(false)} />
-            <StyledButton>visit live page</StyledButton>
-            <StyledButton>check code source</StyledButton>
-          </StyledButtonBox>
-        </StyledToolBox>
-      </StyledContainer>
+      <OpenBoxProvider
+        render={
+          (isToolVisible, setToolVisible) => (
+            <StyledContainer mobile={mobile} onClick={() => setToolVisible(true)}>
+              <StyledHedingBox>
+                <StyledHeading>{title.toUpperCase()}</StyledHeading>
+                <StyledReactSVG src={eyeIcon} />
+              </StyledHedingBox>
+              <StyledImgBox>
+                {images.length !== 0 && images.map((image, index) => (
+                  <StyledImg key={index} src={image} />
+                ))}
+              </StyledImgBox>
+              <StyledParagraph isToolVisible={isToolVisible}>{description}</StyledParagraph>
+              <StyledRect />
+              <StyledToolBox isToolVisible={isToolVisible} onMouseLeave={() => setToolVisible(false)}>
+                <StyledButtonBox>
+                  <StyledStandardButton onClick={(e) => {e.stopPropagation(); setToolVisible(false)}} />
+                  <StyledButton>visit live page</StyledButton>
+                  <StyledButton>check code source</StyledButton>
+                </StyledButtonBox>
+              </StyledToolBox>
+            </StyledContainer>
+          )
+        }
+      />
     </StyledInnerSliderBox>
   );
-};
 
 // ProjectBox.propTypes = {
 

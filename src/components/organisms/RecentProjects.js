@@ -1,14 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Wrapper from 'templates/Wrapper';
-import styled, { keyframes } from 'styled-components';
 import SectionHeading from 'components/atoms/SectionHeading';
-import { ReactSVG } from 'react-svg';
-import scrollIcon from 'assets/icons/scroll.svg';
 import { breakpoint } from 'breakpoints';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // import PropTypes from 'prop-types';
-import ProjectBox from 'components/molecules/ProjectBox';
+import ProjectsMobileBox from 'components/molecules/ProjectsMobileBox';
+import ProjectsDesktopBox from 'components/molecules/ProjectsDesktopBox';
 
 import expensesplanner1Image from 'assets/images/expensesplanner1.jpg';
 import expensesplanner2Image from 'assets/images/expensesplanner2.jpg';
@@ -28,10 +26,7 @@ import webpage1Image from 'assets/images/webpage1.jpg';
 import webpage2Image from 'assets/images/webpage2.jpg';
 import webpage3Image from 'assets/images/webpage3.jpg';
 
-// import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
-
 gsap.registerPlugin(ScrollTrigger);
-// gsap.registerPlugin(ScrollToPlugin);
 
 const projectsList = [
   {
@@ -66,69 +61,9 @@ const projectsList = [
   },
 ];
 
-const pulse = keyframes`
-  from {
-    opacity: .3;
-  }
-  to {
-    opacity: .8;
-  }
-`;
-
-const StyledSlideBox = styled.div`
-  display: ${({ isDesktop }) => isDesktop ? 'flex' : 'none'};
-  width: 380rem;
-  height: calc(100vh - 70px);
-  flex-wrap: nowrap;
-  padding-left: 1rem;
-
-  @media screen and (min-width: ${breakpoint.S}) {
-    padding-left: 9rem;
-    }
-
-  @media screen and (min-width: ${breakpoint.M}) {
-    width: 560rem;
-    }
-
-  @media screen and (min-width: ${breakpoint.M}) {
-    width: 660rem;
-    }
-`;
-
-const StyledMobileBox = styled.div`
-  display: ${({ isDesktop }) => isDesktop ? 'none' : 'flex'};
-  flex-direction: column;
-  align-items: center;
-`;
-
-const StyledReactSvg = styled(ReactSVG)`
-  position: fixed;
-  z-index: 100;
-  top: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 5rem;
-  height: 5rem;
-  color: ${({ theme }) => theme.color.textPrimary};
-  animation: ${pulse} .5s infinite alternate;
-`;
-
 const RecentProjects = () => {
-  const [isScrollVisible, setScrollVisible] = useState(false);
-  const [isDesktop, setIsDestkop] = useState(false);
+  const [isDesktop, setIsDestkop] = useState(true);
   const desktopBreakpoint = breakpoint.M.split('px')[0] * 1;
-  const projectsRef = useRef(null);
-
-  useEffect(() => {
-    let sliderTop;
-    const handleSliderVisibility = () => {
-      sliderTop = projectsRef.current.getBoundingClientRect().top;
-      if (sliderTop !== 0 && sliderTop < 100) setScrollVisible(true);
-      else setScrollVisible(false);
-    };
-    window.addEventListener('resize', handleSliderVisibility);
-    window.addEventListener('scroll', handleSliderVisibility);
-  }, []);
 
   useEffect(() => {
     const getWidth = () => {
@@ -139,50 +74,21 @@ const RecentProjects = () => {
     getWidth();
   }, []);
 
-  useEffect(() => {
-    const projects = gsap.utils.toArray(projectsRef.current.children);
-    gsap.to(projects, {
-      xPercent: -100 * (projects.length - 1),
-      ease: 'none',
-      overwrite: 'false',
-      onInterrupt: () => ScrollTrigger.refresh(),
-      onStart: () => ScrollTrigger.refresh(),
-      onComplete: () => setScrollVisible(false),
-      scrollTrigger: {
-        trigger: projectsRef.current,
-        pin: true,
-        scrub: 1,
-        start: 'top 70',
-        end: () => `+=${projectsRef.current.offsetWidth}`,
-      },
-    });
-  }, []);
-
-  const test = () => console.log('da daaad da daaaaa');
-
   return (
     <section>
       <Wrapper>
         <SectionHeading>
           {'<recent projects />'}
         </SectionHeading>
-        <StyledSlideBox
-          ref={projectsRef}
+        <ProjectsDesktopBox
           isDesktop={isDesktop}
-          onLoadStart={test}
-        >
-          {projectsList.map(({ title, images, description }, index) => (
-            <ProjectBox key={index} title={title} images={images} description={description} />
-          ))}
-        </StyledSlideBox>
-        <StyledMobileBox
+          data={projectsList}
+        />
+        <ProjectsMobileBox
           isDesktop={isDesktop}
-        >
-          {projectsList.map(({ title, images, description }, index) => (
-            <ProjectBox key={index} title={title} images={images} description={description} mobile />
-          ))}
-        </StyledMobileBox>
-        {isDesktop && isScrollVisible && <StyledReactSvg src={scrollIcon} />}
+          data={projectsList}
+          mobile
+        />
       </Wrapper>
     </section>
   );

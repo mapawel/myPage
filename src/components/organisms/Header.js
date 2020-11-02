@@ -7,9 +7,11 @@ import Triangle from 'components/atoms/Triangle';
 import Button from 'components/atoms/Button';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { breakpoint } from 'breakpoints';
 
 gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollToPlugin); 
 
 const imgAnim = keyframes`
 0% {
@@ -33,7 +35,7 @@ const imgAnim = keyframes`
 100% {
   opacity: 1;
 }
-`
+`;
 
 const StyledTwoColumns = styled(TwoColumns)`
   position: relative;
@@ -216,8 +218,13 @@ const Header = () => {
         duration: 3,
       });
   });
+
+  const handleClick = () => {
+    gsap.to(window, {duration: 1, scrollTo: {y: "#contactSection", offsetY: -100}});
+  };
+
   return (
-    <header>
+    <header id="headerSection">
       <Wrapper>
         <StyledTwoColumns>
           <StyledTxtBox ref={txtBoxRef}>
@@ -233,7 +240,7 @@ const Header = () => {
           </StyledTxtBox>
           <StyledImgBox ref={imgRef}>
             <StyledHeaderImg src={headerImage} />
-            <StyledButton>contact me</StyledButton>
+            <StyledButton onClick={handleClick} >contact me</StyledButton>
           </StyledImgBox>
 
         </StyledTwoColumns>
