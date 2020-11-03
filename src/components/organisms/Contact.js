@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import Wrapper from 'templates/Wrapper';
 import SectionHeading from 'components/atoms/SectionHeading';
@@ -12,6 +12,7 @@ import { ReactSVG } from 'react-svg';
 import messangerIcon from 'assets/icons/messanger.svg';
 import linkedInIcon from 'assets/icons/linkedin.svg';
 import githubIcon from 'assets/icons/github.svg';
+import SentMailPopUp from 'components/organisms/SentMailPopUp';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -59,6 +60,7 @@ const StyledSection = styled.section`
 `;
 
 const Contact = () => {
+  const [popupVisible, setPopupVisible] = useState(false)
   useEffect(() => {
     // gsap.fromTo(txtBoxRef.current.children,
     //   { x: '+=200', opacity: 0 },
@@ -83,6 +85,10 @@ const Contact = () => {
     //     duration: 3,
     //   });
   });
+
+  const togglePopup = () => {
+    setPopupVisible(currentState => !currentState)
+  }
   return (
     <StyledSection id="contactSection">
       <Wrapper>
@@ -97,10 +103,12 @@ const Contact = () => {
           </StyledMediaBox>
           <StyledMessageBox>
             <StyledHeading>leave me a message</StyledHeading>
-            <MessageForm />
+            <MessageForm togglePopup={togglePopup} />
           </StyledMessageBox>
         </TwoColumns>
       </Wrapper>
+      {popupVisible && <SentMailPopUp togglePopup={togglePopup} />}
+      
     </StyledSection>
   );
 };

@@ -75,6 +75,7 @@ const StyledUpTxt = styled(StyledParagraph)`
   top: 3rem;
   line-height: 0;
   font-weight: 900;
+  color: ${({ theme }) => theme.color.textSecondary};
 
 `;
 
