@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import gsap from 'gsap';
 import Paragraph from 'components/atoms/Paragraph';
 // import PropTypes from 'prop-types';
-const tl = gsap.timeline({delay: 0});
+const tl = gsap.timeline({ delay: 0 });
 
 const StyledShadowWrapper = styled.div`
   position: fixed;
@@ -27,7 +27,7 @@ const StyledParagraph = styled(Paragraph)`
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  color: ${({ theme }) => theme.color.textPrimary};
+  color: ${({ theme, sentStatus }) => (sentStatus === 400 ? 'red' : theme.color.textPrimary)};
   opacity: 0;
 `;
 
@@ -139,7 +139,7 @@ const StyledBox = styled.div`
   opacity: 0;
 `;
 
-const SentMailPopUp = ({ togglePopup }) => {
+const SentMailPopUp = ({ togglePopup, sentStatus }) => {
   const letterRef = useRef(null);
   const envelopeTopRef = useRef(null);
   const envelopeTop2Ref = useRef(null);
@@ -147,42 +147,58 @@ const SentMailPopUp = ({ togglePopup }) => {
   const paragraphRef = useRef(null);
   const wrapperRef = useRef(null);
   useEffect(() => {
+    const isBackAnim = (sentStatus) => {
+      const animTarget = {
+        duration: 1, x: '0', y: '0', scale: 0.6, opacity: 0.4, rotate: -30,
+      };
+      const animBlank = {}
+      if (sentStatus === 400) return animTarget
+      else return animBlank;
+    };
     tl
-    .to(wrapperRef.current, {duration: .5, opacity: 1})
-    .to(envelopeRef.current, {duration: .5, opacity: 1})
-    .to(letterRef.current, {duration: .3, opacity: 1})
-    .to(letterRef.current, {duration: .2, rotation: 50})
-    .to(letterRef.current, {duration: .5, y: '+=185', rotation: 0})
-    .to(envelopeTopRef.current, {duration: .2, rotationX: 90})
-    .to(envelopeTopRef.current, {duration: 0, opacity: 0})
-    .to(envelopeTop2Ref.current, {duration: 0, opacity: 1})
-    .to(envelopeTop2Ref.current, {duration: .2, rotationX: 180})
-    .to(envelopeTop2Ref.current, {duration: .3, rotationX: 180})
-    .to(envelopeRef.current, {duration: 1, x: '+=100', y: '-=100', scale: .1, opacity: 0, rotate: 720})
-    .to(paragraphRef.current, {duration: .5, opacity: 1})
-    .to(paragraphRef.current, {duration: 2, opacity: 1})
-    .to(wrapperRef.current, {duration: .5, opacity: 0, onComplete: () => togglePopup()})
+      .to(wrapperRef.current, { duration: 0.5, opacity: 1 })
+      .to(envelopeRef.current, { duration: 0.5, opacity: 1 })
+      .to(letterRef.current, { duration: 0.3, opacity: 1 })
+      .to(letterRef.current, { duration: 0.2, rotation: 50 })
+      .to(letterRef.current, { duration: 0.5, y: '+=185', rotation: 0 })
+      .to(envelopeTopRef.current, { duration: 0.2, rotationX: 90 })
+      .to(envelopeTopRef.current, { duration: 0, opacity: 0 })
+      .to(envelopeTop2Ref.current, { duration: 0, opacity: 1 })
+      .to(envelopeTop2Ref.current, { duration: 0.2, rotationX: 180 })
+      .to(envelopeTop2Ref.current, { duration: 0.3, rotationX: 180 })
+      .to(envelopeRef.current, {
+        duration: 1, x: '+=100', y: '-=100', scale: 0.1, opacity: 0, rotate: 720,
+      })
+      .to(envelopeRef.current, isBackAnim(sentStatus))
+      .to(paragraphRef.current, { duration: 0.5, opacity: 1 })
+      .to(paragraphRef.current, { duration: sentStatus === 400 ? 4 : 2, opacity: 1 })
+      .to(wrapperRef.current, { duration: 0.5, opacity: 0, onComplete: () => togglePopup(0) });
   });
+  const notDelivered = () => {
+
+  };
   return (
-    <StyledShadowWrapper ref={wrapperRef} >
+    <StyledShadowWrapper ref={wrapperRef}>
       <StyledContainer>
-        <StyledParagraph ref={paragraphRef} >Your message's been sent. Thank you.</StyledParagraph>
-        <StyledBox ref={envelopeRef} >
-        <StyledLetter ref={letterRef}>
-          <StyledSpan />
-          <StyledSpan />
-          <StyledSpan />
-          <StyledSpan />
-          <StyledSpan />
-          <StyledSpan />
-          <StyledSpan />
-        </StyledLetter>
-        <StyledGap />
-        <StyledEnTop2 ref={envelopeTop2Ref} />
-        <StyledEnTop ref={envelopeTopRef} />
-        <StyledEnInside />
-        <StyledEnMain />
-        <StyledEnBottom />
+        <StyledParagraph sentStatus={sentStatus} ref={paragraphRef}>
+          {sentStatus === 200 ? 'Your message\'s been sent. Thank you.' : 'Sorry, mail is not delivered. Please use Messanger or LinkedIn. Thank you.'}
+        </StyledParagraph>
+        <StyledBox ref={envelopeRef}>
+          <StyledLetter ref={letterRef}>
+            <StyledSpan />
+            <StyledSpan />
+            <StyledSpan />
+            <StyledSpan />
+            <StyledSpan />
+            <StyledSpan />
+            <StyledSpan />
+          </StyledLetter>
+          <StyledGap />
+          <StyledEnTop2 ref={envelopeTop2Ref} />
+          <StyledEnTop ref={envelopeTopRef} />
+          <StyledEnInside />
+          <StyledEnMain />
+          <StyledEnBottom />
         </StyledBox>
       </StyledContainer>
 

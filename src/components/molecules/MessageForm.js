@@ -1,16 +1,43 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
+import styled, { css, keyframes } from 'styled-components';
 import Input from 'components/atoms/Input';
 import Button from 'components/atoms/Button';
 import { Formik, ErrorMessage } from 'formik';
 import { validatorSchema } from 'validators/validatorSchema';
+import { sendMail } from 'actions/sendmail';
+import SentMailPopUp from 'components/organisms/SentMailPopUp';
+import spinnerIcon from 'assets/icons/spinner.svg'
 
 // import PropTypes from 'prop-types';
+const spin = keyframes`
+  from {
+    transform: rotate(0)
+  }
+  to {
+    transform: rotate(360deg)
+  }
+`;
 
 const StyledButtonBox = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 4rem;
+`;
+
+const StyledSubmitButton = styled(Button)`
+${({ disabled }) => disabled && css`
+position: relative;
+    ::after{
+      content: '';
+      position: absolute;
+      top: 0;
+      right: -6rem;
+      width: 4rem;
+      height: 4rem;
+      background-image: url('${spinnerIcon}');
+      animation: ${spin} 2s infinite linear;
+    }
+`}
 `;
 
 const StyledForm = styled.form`
@@ -28,101 +55,105 @@ const StyledError = styled.p`
   text-decoration: underline;
 `;
 
-const MessageForm = ({ togglePopup }) => (
+const MessageForm = () => {
+  const [sentMailStatus, setSentMailStatus] = useState(0);
+  const handleSentMailFeedback = (status) => {
+    setSentMailStatus(status);
+  };
+  return (
+    <>
+      <Formik
+        initialValues={
+          {
+            name: '',
+            mail: '',
+            category: '',
+            content: '',
+          }
+        }
+        validationSchema={validatorSchema}
+        onSubmit={
+          async (values, { setSubmitting, resetForm }) => {
+            await sendMail(values, handleSentMailFeedback);
+            resetForm();
+            setSubmitting(false);
+          }
+        }
+      >
+        {({
+          values,
+          handleChange,
+          handleSubmit,
+          isSubmitting,
+          setFieldValue,
+          resetForm,
+        }) => (
 
-  <Formik
-    initialValues={
-      {
-        name: '',
-        mail: '',
-        category: '',
-        content: '',
-      }
-    }
-    validationSchema={validatorSchema}
-    onSubmit={
-      (values, { setSubmitting, resetForm  }) => {
-        // wynkjawysylajaca(values);
-        console.log(values)
-        togglePopup();
-        resetForm();
-        
-        setTimeout(() => {
-          setSubmitting(false);
-        }, 200);
-      }
-    }
-  >
-    {({
-      values,
-      handleChange,
-      handleSubmit,
-      isSubmitting,
-      setFieldValue,
-      resetForm,
-    }) => (
-
-        <StyledForm
-          onSubmit={(e) => e.preventDefault()}
-        >
-          <Input
-            name="name"
-            id="name"
-            onChange={handleChange}
-            value={values.name}
-            labelTxt="or company..."
-            headerTxt="name"
-          >
-            <ErrorMessage component={StyledError} name="name" />
-          </Input>
-          <Input
-            name="mail"
-            id="mail"
-            onChange={handleChange}
-            value={values.mail}
-            labelTxt="example@example.com"
-            headerTxt="e-mail"
-          >
-            <ErrorMessage component={StyledError} name="mail" />
-          </Input>
-          <Input
-            name="category"
-            id="category"
-            onChange={handleChange}
-            value={values.category}
-            labelTxt="choose one..."
-            headerTxt="category"
-            select={[['---', '---'], ['cooperation', 'cooperation'], ['opinion', 'opinion']]}
-          >
-            <ErrorMessage component={StyledError} name="category" />
-          </Input>
-          <Input
-            name="content"
-            id="content"
-            onChange={handleChange}
-            value={values.content}
-            labelTxt="your message..."
-            headerTxt="contents"
-            textarea
-          >
-            <ErrorMessage component={StyledError} name="content" />
-          </Input>
-          <StyledButtonBox>
-            <Button
-              onClick={handleSubmit}
-              disabled={isSubmitting}
+            <StyledForm
+              onSubmit={(e) => e.preventDefault()}
             >
-              send
+              <Input
+                name="name"
+                id="name"
+                onChange={handleChange}
+                value={values.name}
+                labelTxt="or company..."
+                headerTxt="name"
+              >
+                <ErrorMessage component={StyledError} name="name" />
+              </Input>
+              <Input
+                name="mail"
+                id="mail"
+                onChange={handleChange}
+                value={values.mail}
+                labelTxt="example@example.com"
+                headerTxt="e-mail"
+              >
+                <ErrorMessage component={StyledError} name="mail" />
+              </Input>
+              <Input
+                name="category"
+                id="category"
+                onChange={handleChange}
+                value={values.category}
+                labelTxt="choose one..."
+                headerTxt="category"
+                select={[['---', '---'], ['cooperation', 'cooperation'], ['opinion', 'opinion']]}
+              >
+                <ErrorMessage component={StyledError} name="category" />
+              </Input>
+              <Input
+                name="content"
+                id="content"
+                onChange={handleChange}
+                value={values.content}
+                labelTxt="your message..."
+                headerTxt="contents"
+                textarea
+              >
+                <ErrorMessage component={StyledError} name="content" />
+              </Input>
+              <StyledButtonBox>
+                <StyledSubmitButton
+                  type="submit"
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                >
+                  send
 
-          </Button>
-            <Button onClick={resetForm}>clear</Button>
-          </StyledButtonBox>
-        </StyledForm>
+              </StyledSubmitButton>
+                <Button onClick={resetForm}>clear</Button>
+              </StyledButtonBox>
+            </StyledForm>
 
-      )}
-  </Formik>
+          )}
+      </Formik>
+      {(sentMailStatus !== 0) ? <SentMailPopUp togglePopup={handleSentMailFeedback} sentStatus={sentMailStatus} /> : null}
+    </>
 
-);
+  );
+};
 
 // MessageForm.propTypes = {
 
