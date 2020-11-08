@@ -55,7 +55,7 @@ const StyledError = styled.p`
   text-decoration: underline;
 `;
 
-const MessageForm = () => {
+const MessageForm = ({ data }) => {
   const [sentMailStatus, setSentMailStatus] = useState(0);
   const handleSentMailFeedback = (status) => {
     setSentMailStatus(status);
@@ -97,8 +97,8 @@ const MessageForm = () => {
                 id="name"
                 onChange={handleChange}
                 value={values.name}
-                labelTxt="or company..."
-                headerTxt="name"
+                labelTxt={data && data.placeholder1}
+                headerTxt={data && data.title1}
               >
                 <ErrorMessage component={StyledError} name="name" />
               </Input>
@@ -107,8 +107,8 @@ const MessageForm = () => {
                 id="mail"
                 onChange={handleChange}
                 value={values.mail}
-                labelTxt="example@example.com"
-                headerTxt="e-mail"
+                labelTxt={data && data.placeholder2}
+                headerTxt={data && data.title2}
               >
                 <ErrorMessage component={StyledError} name="mail" />
               </Input>
@@ -117,9 +117,9 @@ const MessageForm = () => {
                 id="category"
                 onChange={handleChange}
                 value={values.category}
-                labelTxt="choose one..."
-                headerTxt="category"
-                select={[['---', '---'], ['cooperation', 'cooperation'], ['opinion', 'opinion']]}
+                labelTxt={data && data.placeholder3}
+                headerTxt={data && data.title3}
+                select={data && [['---', '---'], ...data.placeholder3.map((category) => [category, category])]}
               >
                 <ErrorMessage component={StyledError} name="category" />
               </Input>
@@ -128,8 +128,8 @@ const MessageForm = () => {
                 id="content"
                 onChange={handleChange}
                 value={values.content}
-                labelTxt="your message..."
-                headerTxt="contents"
+                labelTxt={data && data.placeholder4}
+                headerTxt={data && data.title4}
                 textarea
               >
                 <ErrorMessage component={StyledError} name="content" />

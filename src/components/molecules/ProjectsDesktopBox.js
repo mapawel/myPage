@@ -68,31 +68,35 @@ const ProjectsDesktopBox = ({ data, isDesktop }) => {
   }, []);
 
   useEffect(() => {
-    const projects = gsap.utils.toArray(projectsRef.current.children);
-    gsap.to(projects, {
-      xPercent: -100 * (projects.length - 1),
-      ease: 'none',
-      onInterrupt: () => ScrollTrigger.refresh(),
-      onStart: () => ScrollTrigger.refresh(),
-      onComplete: () => setScrollVisible(false),
-      scrollTrigger: {
-        trigger: projectsRef.current,
-        pin: true,
-        scrub: 1,
-        start: 'top 70',
-        end: () => `+=${projectsRef.current.offsetWidth}`,
-      },
-    });
-  }, []);
+    if (data) {
+      const projects = gsap.utils.toArray(projectsRef.current.children);
+      gsap.to(projects, {
+        xPercent: -100 * (projects.length - 1),
+        ease: 'none',
+        onInterrupt: () => ScrollTrigger.refresh(),
+        onStart: () => ScrollTrigger.refresh(),
+        onComplete: () => setScrollVisible(false),
+        scrollTrigger: {
+          trigger: projectsRef.current,
+          pin: true,
+          scrub: 1,
+          start: 'top 70',
+          end: () => `+=${projectsRef.current.offsetWidth}`,
+        },
+      });
+    }
+  }, [data]);
   return (
     <>
       <StyledSlideBox
         ref={projectsRef}
         isDesktop={isDesktop}
       >
-        {data.map(({ title, images, description }, index) => (
-          <ProjectBox key={index} title={title} images={images} description={description} />
-        ))}
+        {data && data.map(({
+          id, title, images, description, code, live,
+        }) => (
+            <ProjectBox key={id} title={title} images={images} description={description} code={code} live={live} />
+          ))}
       </StyledSlideBox>
       {isDesktop && isScrollVisible && <StyledReactSvg src={scrollIcon} />}
     </>

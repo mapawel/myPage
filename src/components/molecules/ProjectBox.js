@@ -260,7 +260,7 @@ const StyledInnerSliderBox = styled.div`
 `;
 
 const ProjectBox = ({
-  title = '', images = [], description = '', mobile,
+  title, images, description, mobile, code, live,
 }) => (
     <StyledInnerSliderBox mobile={mobile}>
       <OpenBoxProvider
@@ -268,12 +268,12 @@ const ProjectBox = ({
           (isToolVisible, setToolVisible) => (
             <StyledContainer mobile={mobile} onClick={() => setToolVisible(true)}>
               <StyledHedingBox>
-                <StyledHeading>{title.toUpperCase()}</StyledHeading>
+                <StyledHeading>{title && title.toUpperCase()}</StyledHeading>
                 <StyledReactSVG src={eyeIcon} />
               </StyledHedingBox>
               <StyledImgBox>
-                {images.length !== 0 && images.map((image, index) => (
-                  <StyledImg key={index} src={image} />
+                {images.length !== 0 && images.map(({ id, url}) => (
+                  <StyledImg key={id} src={url} />
                 ))}
               </StyledImgBox>
               <StyledParagraph isToolVisible={isToolVisible}>{description}</StyledParagraph>
@@ -281,8 +281,8 @@ const ProjectBox = ({
               <StyledToolBox isToolVisible={isToolVisible} onMouseLeave={() => setToolVisible(false)}>
                 <StyledButtonBox>
                   <StyledStandardButton onClick={(e) => {e.stopPropagation(); setToolVisible(false)}} />
-                  <StyledButton>visit live page</StyledButton>
-                  <StyledButton>check code source</StyledButton>
+                  <StyledButton onClick={()=> window.open(live, "_blank")}>visit live page</StyledButton>
+                  <StyledButton onClick={()=> window.open(code, "_blank")}>check code source</StyledButton>
                 </StyledButtonBox>
               </StyledToolBox>
             </StyledContainer>

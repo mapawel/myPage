@@ -36,10 +36,9 @@ const StyledHeading = styled(Heading)`
   margin-bottom: 5rem;
 `;
 
-const StyledReactSVG = styled(ReactSVG)`
+const StyledImg = styled.img`
   width: 5rem;
   margin: 0 3rem 2rem;
-  color: ${({ theme }) => theme.color.textPrimary};
   transition: opacity .3s;
   cursor: pointer;
   :hover{
@@ -58,7 +57,7 @@ const StyledSection = styled.section`
   min-height: 100vh;
 `;
 
-const Contact = ({ title }) => {
+const Contact = ({ title, data, icons }) => {
   useEffect(() => {
     // gsap.fromTo(txtBoxRef.current.children,
     //   { x: '+=200', opacity: 0 },
@@ -92,13 +91,11 @@ const Contact = ({ title }) => {
         </SectionHeading>
         <TwoColumns>
           <StyledMediaBox>
-            <StyledReactSVG src={linkedInIcon} />
-            <StyledReactSVG src={githubIcon} />
-            <StyledReactSVG src={messangerIcon} />
+            {icons && icons.map((icon) => <StyledImg src={icon.icon.url} alt="contact" onClick={() => window.open(icon.link, '_blank')} />)}
           </StyledMediaBox>
           <StyledMessageBox>
             <StyledHeading>leave me a message</StyledHeading>
-            <MessageForm />
+            <MessageForm data={data} />
           </StyledMessageBox>
         </TwoColumns>
       </Wrapper>

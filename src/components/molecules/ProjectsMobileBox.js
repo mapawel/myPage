@@ -14,8 +14,8 @@ const ProjectsMobileBox = ({ isDesktop, data, mobile }) => (
   <StyledMobileBox
     isDesktop={isDesktop}
   >
-    {data.map(({ title, images, description }, index) => (
-      <ProjectBox key={index} title={title} images={images} description={description} mobile={mobile} />
+    {data && data.map(({ id, title, images, description, code, live }) => (
+      <ProjectBox key={id} title={title} images={images} description={description} code={code} live={live} mobile={mobile} />
     ))}
   </StyledMobileBox>
 );
