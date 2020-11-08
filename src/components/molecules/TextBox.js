@@ -77,7 +77,7 @@ const StyledTriangle = styled(Triangle)`
     }
 `;
 
-const TextBox = ({ rect, triangle, data = { title: '', content: [] } }) => {
+const TextBox = ({ rect, triangle, data }) => {
   const rectRef = useRef(null);
   const triangleRef = useRef(null);
 
@@ -101,9 +101,9 @@ const TextBox = ({ rect, triangle, data = { title: '', content: [] } }) => {
   });
   return (
     <StyledContainer>
-      <StyledHeading bold>{data.title.toUpperCase()}</StyledHeading>
-      {data.content.map((content, index) => (
-        <StyledParagraph bold id={index} key={index}>{content}</StyledParagraph>
+      <StyledHeading bold>{data && data.title.toUpperCase()}</StyledHeading>
+      {data && data.content.map((content, index) => (
+        <StyledParagraph bold id={index} key={content}>{content}</StyledParagraph>
       ))}
       {rect && <StyledRect ref={rectRef} />}
       {triangle && <StyledTriangle ref={triangleRef} />}

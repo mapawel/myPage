@@ -58,7 +58,7 @@ const StyledSection = styled.section`
   min-height: 100vh;
 `;
 
-const Contact = () => {
+const Contact = ({ title }) => {
   useEffect(() => {
     // gsap.fromTo(txtBoxRef.current.children,
     //   { x: '+=200', opacity: 0 },
@@ -88,7 +88,7 @@ const Contact = () => {
     <StyledSection id="contactSection">
       <Wrapper>
         <SectionHeading>
-          {'<contact />'}
+          {title}
         </SectionHeading>
         <TwoColumns>
           <StyledMediaBox>

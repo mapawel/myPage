@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 import Wrapper from 'templates/Wrapper';
 import TwoColumns from 'templates/TwoColumns';
-import headerImage from 'assets/images/pmfoto450.png';
 import Triangle from 'components/atoms/Triangle';
 import Button from 'components/atoms/Button';
 import { gsap } from 'gsap';
@@ -11,7 +10,7 @@ import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { breakpoint } from 'breakpoints';
 
 gsap.registerPlugin(ScrollTrigger);
-gsap.registerPlugin(ScrollToPlugin); 
+gsap.registerPlugin(ScrollToPlugin);
 
 const imgAnim = keyframes`
 0% {
@@ -59,6 +58,7 @@ const StyledHeaderTxt = styled.h1`
   text-shadow: -2px 2px 6px black;
   font-weight: 700;
   line-height: 1.05;
+  opacity: 0;
 
   
   @media screen and (min-width: ${breakpoint.M}) {
@@ -111,6 +111,7 @@ const StyledImgBox = styled.div`
   justify-content: space-between;
   align-self: flex-end;
   align-items: flex-end;
+  opacity: 0;
 
   @media screen and (min-width: ${breakpoint.S}) {
   width: 55%;
@@ -166,6 +167,8 @@ const StyledTriangle = styled(Triangle)`
   height: 300px;
   top: -10%;
   left: 25%;
+  opacity: 0;
+
 
   @media screen and (min-width: ${breakpoint.S}) {
     top: -30%;
@@ -190,37 +193,39 @@ const StyledTriangle = styled(Triangle)`
     }
 `;
 
-const Header = () => {
+const Header = ({ data: { headings, headerImageUrl } }) => {
   const txtBoxRef = useRef(null);
   const triangleRef = useRef(null);
   const imgRef = useRef(null);
   useEffect(() => {
-    gsap.fromTo(txtBoxRef.current.children,
-      { x: '+=200', opacity: 0 },
-      {
-        x: '0',
-        opacity: 1,
-        stagger: 0.6,
-        duration: 0.4,
-      });
+    if (headings && headerImageUrl) {
+      gsap.fromTo(txtBoxRef.current.children,
+        { x: '+=200', opacity: 0 },
+        {
+          x: '0',
+          opacity: 1,
+          stagger: 0.6,
+          duration: 0.4,
+        });
 
-    gsap.fromTo(triangleRef.current,
-      { opacity: 0 },
-      {
-        opacity: 1,
-        duration: 3,
-      });
+      gsap.fromTo(triangleRef.current,
+        { opacity: 0 },
+        {
+          opacity: 1,
+          duration: 3,
+        });
 
-    gsap.fromTo(imgRef.current,
-      { opacity: 0 },
-      {
-        opacity: 1,
-        duration: 3,
-      });
-  });
+      gsap.fromTo(imgRef.current,
+        { opacity: 0 },
+        {
+          opacity: 1,
+          duration: 3,
+        });
+    }
+  }, [headings, headerImageUrl]);
 
   const handleClick = () => {
-    gsap.to(window, {duration: 1, scrollTo: {y: "#contactSection", offsetY: -100}});
+    gsap.to(window, { duration: 1, scrollTo: { y: '#contactSection', offsetY: -100 } });
   };
 
   return (
@@ -230,19 +235,18 @@ const Header = () => {
           <StyledTxtBox ref={txtBoxRef}>
             <StyledTriangle ref={triangleRef} />
             <StyledHeaderTxt>
-              welcome!
+              {headings && headings[0]}
               <br />
             </StyledHeaderTxt>
-            <StyledHeaderTxtSpan>my name is Pawel,</StyledHeaderTxtSpan>
+            <StyledHeaderTxtSpan>{headings && headings[1]}</StyledHeaderTxtSpan>
             <StyledHeaderTxt>
-              I'm a front-end developer
+              {headings && headings[2]}
             </StyledHeaderTxt>
           </StyledTxtBox>
           <StyledImgBox ref={imgRef}>
-            <StyledHeaderImg src={headerImage} />
-            <StyledButton onClick={handleClick} >contact me</StyledButton>
+            <StyledHeaderImg src={headerImageUrl && headerImageUrl} />
+            <StyledButton onClick={handleClick}>contact me</StyledButton>
           </StyledImgBox>
-
         </StyledTwoColumns>
       </Wrapper>
     </header>

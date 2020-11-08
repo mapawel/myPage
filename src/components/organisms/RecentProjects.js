@@ -61,7 +61,7 @@ const projectsList = [
   },
 ];
 
-const RecentProjects = () => {
+const RecentProjects = ({ title }) => {
   const [isDesktop, setIsDestkop] = useState(true);
   const desktopBreakpoint = breakpoint.M.split('px')[0] * 1;
 
@@ -78,7 +78,7 @@ const RecentProjects = () => {
     <section>
       <Wrapper>
         <SectionHeading>
-          {'<recent projects />'}
+        {title}
         </SectionHeading>
         <ProjectsDesktopBox
           isDesktop={isDesktop}

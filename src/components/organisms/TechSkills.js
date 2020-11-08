@@ -8,25 +8,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const techSkillsList = [
-  {
-    title: 'My Tech Stack',
-    content: ['React', 'Redux', 'JavaScript', 'CSS', 'HTML5', 'SASS', 'Firebase', 'Git', 'ESLint', 'Node.js'],
-  },
-  {
-    title: 'with use',
-    content: ['React Router', 'Material UI', 'Bulma', 'Bootstrap', 'Formik', 'Styled Components', 'GSAP', 'StoryBook', 'MomentJs', 'Toastify', 'and others...'],
-  },
-];
-
-const TechSkills = () => (
+const TechSkills = ({ title, data }) => (
   <section>
     <Wrapper>
       <SectionHeading>
-        {'<tech skills />'}
+        {title}
       </SectionHeading>
-      {techSkillsList.map((list, index) => (
-        <List key={index} nr={index} title={list.title} content={list.content} />
+      {data && data.map((list, index) => (
+        <List key={list.id} nr={index} title={list.title} content={list.lists} />
       ))}
     </Wrapper>
   </section>

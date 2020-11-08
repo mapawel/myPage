@@ -8,6 +8,8 @@
     "@testing-library/user-event": "^7.1.2",
     "emailjs-com": "^2.6.3",
     "eslint": "^6.6.0",
+    "graphql": "^15.4.0",
+    "graphql-request": "^3.3.0",
     "gsap": "^3.5.1",
     "particlesjs": "^2.2.3",
     "react": "^17.0.0",

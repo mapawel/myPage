@@ -44,6 +44,7 @@ const StyledLi = styled.li`
   color: ${({ theme }) => theme.color.textPrimary};
   font-size: ${({ theme }) => theme.fontSize.m};
   font-weight: 700;
+  opacity: 0;
 
   
   @media screen and (min-width: ${breakpoint.S}) {
@@ -69,6 +70,7 @@ const StyledBox = styled.div`
   top: 0;
   right: 0;
   transform: rotate(15deg);
+  opacity: 0;
 `;
 
 const StyledRect = styled(Rect)`
@@ -128,58 +130,60 @@ const List = ({ title, content, nr }) => {
   const figureRef = useRef(null);
   const listHeadingRef = useRef();
   useEffect(() => {
-    gsap.fromTo(listHeadingRef.current,
-      {
-        y: '+= 100',
-        opacity: 0,
-      },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.6,
-        scrollTrigger:
+    if (content) {
+      gsap.fromTo(listHeadingRef.current,
         {
-          trigger: listHeadingRef.current,
-          start: 'top 60%',
+          y: '+= 100',
+          opacity: 0,
         },
-      });
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          scrollTrigger:
+          {
+            trigger: listHeadingRef.current,
+            start: 'top 60%',
+          },
+        });
 
-    gsap.fromTo(listRef.current.children,
-      { x: '-=200', opacity: 0 },
-      {
-        x: '0',
-        opacity: 1,
-        stagger: 0.2,
-        duration: 0.4,
-        scrollTrigger:
+      gsap.fromTo(listRef.current.children,
+        { x: '-=200', opacity: 0 },
         {
-          trigger: listRef.current,
-          start: 'top 50%',
-        },
-      });
+          x: '0',
+          opacity: 1,
+          stagger: 0.2,
+          duration: 0.4,
+          scrollTrigger:
+          {
+            trigger: listRef.current,
+            start: 'top 50%',
+          },
+        });
 
-    gsap.fromTo(figureRef.current,
-      { x: '+=500', rotation: '-10', opacity: 0 },
-      {
-        x: 0,
-        opacity: 1,
-        rotation: '15',
-        duration: 0.4,
-        scrollTrigger:
+      gsap.fromTo(figureRef.current,
+        { x: '+=500', rotation: '-10', opacity: 0 },
         {
-          trigger: figureRef.current,
-          start: 'top 80%',
-          scrub: 1,
-        },
-      });
-  });
+          x: 0,
+          opacity: 1,
+          rotation: '15',
+          duration: 0.4,
+          scrollTrigger:
+          {
+            trigger: figureRef.current,
+            start: 'top 80%',
+            scrub: 1,
+          },
+        });
+    }
+  }, [content]);
 
   return (
     <StyledContainer>
-      <StyledListHeading ref={listHeadingRef} secondary bold big>{`${title}:`}</StyledListHeading>
+      <StyledListHeading ref={listHeadingRef} secondary bold big>{title}</StyledListHeading>
       <StyledUl ref={listRef}>
-        {content.map((element, index) => (
-          <StyledLi key={index} index={index}>{element}</StyledLi>
+        {content && content.map((element, index) => (
+          <StyledLi key={element.id} index={index}>{element.listItem}</StyledLi>
         ))}
       </StyledUl>
       <StyledBox ref={figureRef}>

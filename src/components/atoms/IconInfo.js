@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ReactSVG } from 'react-svg';
 import Heading from 'components/atoms/Heading';
 import Paragraph from 'components/atoms/Paragraph';
 import { breakpoint } from 'breakpoints';
@@ -11,10 +10,6 @@ const StyledContainer = styled.div`
   display: flex;
   max-width: 42rem;
   margin: 3rem 0 8rem;
-
-  /* @media screen and (min-width: ${breakpoint.L}) {
-    margin: 3rem auto 8rem 0;
-    } */
 `;
 
 const StyledIconBox = styled.div`
@@ -26,8 +21,7 @@ const StyledIconBox = styled.div`
     }
 `;
 
-const StyledReactSVG = styled(ReactSVG)`
-  color: ${({ theme }) => theme.color.textSecondary};
+const StyledImg = styled.img`
   margin-top: 1.5rem;
 
   @media screen and (min-width: ${breakpoint.L}) {
@@ -52,14 +46,14 @@ const StyledHeading = styled(Heading)`
     }
 `;
 
-const IconInfo = ({ title = '', content = [], icon }) => (
+const IconInfo = ({ title, content, icon }) => (
   <StyledContainer>
     <StyledIconBox>
-      <StyledReactSVG src={icon} />
+      <StyledImg src={icon && icon} alt=">" />
     </StyledIconBox>
     <StyledTxtBox>
-      <StyledHeading>{title.toUpperCase()}</StyledHeading>
-      {content.map((bullet, index) => (
+      <StyledHeading>{title && title.toUpperCase()}</StyledHeading>
+      {content && content.map((bullet, index) => (
         <Paragraph key={index}>{bullet}</Paragraph>
       ))}
     </StyledTxtBox>
