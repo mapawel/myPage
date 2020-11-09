@@ -103,7 +103,7 @@ const TextBox = ({ rect, triangle, data }) => {
     <StyledContainer>
       <StyledHeading bold>{data && data.title.toUpperCase()}</StyledHeading>
       {data && data.content.map((content, index) => (
-        <StyledParagraph bold id={index} key={content}>{content}</StyledParagraph>
+        <StyledParagraph id={index} key={content}>{content}</StyledParagraph>
       ))}
       {rect && <StyledRect ref={rectRef} />}
       {triangle && <StyledTriangle ref={triangleRef} />}

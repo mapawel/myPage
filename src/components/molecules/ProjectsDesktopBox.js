@@ -68,7 +68,7 @@ const ProjectsDesktopBox = ({ data, isDesktop }) => {
   }, []);
 
   useEffect(() => {
-    if (data) {
+    if (data && isDesktop) {
       const projects = gsap.utils.toArray(projectsRef.current.children);
       gsap.to(projects, {
         xPercent: -100 * (projects.length - 1),
@@ -85,7 +85,7 @@ const ProjectsDesktopBox = ({ data, isDesktop }) => {
         },
       });
     }
-  }, [data]);
+  }, [data, isDesktop]);
   return (
     <>
       <StyledSlideBox

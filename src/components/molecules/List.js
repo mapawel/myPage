@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import Heading from 'components/atoms/Heading';
 import Rect from 'components/atoms/Rect';
 import Triangle from 'components/atoms/Triangle';
@@ -9,6 +9,15 @@ import { breakpoint } from 'breakpoints';
 // import PropTypes from 'prop-types';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const blink = keyframes`
+  from {
+    opacity: .8;
+  }
+  to {
+    opacity: .05;
+  }
+`
 
 const StyledContainer = styled.div`
   position: relative;
@@ -40,11 +49,36 @@ const StyledUl = styled.ul`
 `;
 
 const StyledLi = styled.li`
+  position: relative;
   margin-left: ${({ index }) => `${index * 1.4}rem`};
   color: ${({ theme }) => theme.color.textPrimary};
   font-size: ${({ theme }) => theme.fontSize.m};
   font-weight: 700;
   opacity: 0;
+  ${({ inProgress }) => inProgress && css`
+    ::after{
+      content: 'in progress () =>';
+      position: absolute;
+      left: -12.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: ${({ theme }) => theme.fontSize.xxs};
+      color: ${({ theme }) => theme.color.textSecondary};
+      opacity: .8;
+      animation: ${blink} 2s infinite alternate;
+
+      @media screen and (min-width: ${breakpoint.S}) {
+      left: -18rem;
+      font-size: ${({ theme }) => theme.fontSize.s};
+        }
+
+      @media screen and (min-width: ${breakpoint.L}) {
+      left: -25rem;
+      font-size: ${({ theme }) => theme.fontSize.m};
+        }
+  
+    }
+  `};
 
   
   @media screen and (min-width: ${breakpoint.S}) {
@@ -183,7 +217,7 @@ const List = ({ title, content, nr }) => {
       <StyledListHeading ref={listHeadingRef} secondary bold big>{title}</StyledListHeading>
       <StyledUl ref={listRef}>
         {content && content.map((element, index) => (
-          <StyledLi key={element.id} index={index}>{element.listItem}</StyledLi>
+          <StyledLi key={element.id} index={index} inProgress={element.inProgress}>{element.listItem}</StyledLi>
         ))}
       </StyledUl>
       <StyledBox ref={figureRef}>

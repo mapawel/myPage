@@ -6,7 +6,7 @@ import { Formik, ErrorMessage } from 'formik';
 import { validatorSchema } from 'validators/validatorSchema';
 import { sendMail } from 'actions/sendmail';
 import SentMailPopUp from 'components/organisms/SentMailPopUp';
-import spinnerIcon from 'assets/icons/spinner.svg'
+import spinnerIcon from 'assets/icons/spinner.svg';
 
 // import PropTypes from 'prop-types';
 const spin = keyframes`

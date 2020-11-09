@@ -1,19 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Wrapper from 'templates/Wrapper';
 import SectionHeading from 'components/atoms/SectionHeading';
 import Heading from 'components/atoms/Heading';
 import MessageForm from 'components/molecules/MessageForm';
 import TwoColumns from 'templates/TwoColumns';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { breakpoint } from 'breakpoints';
-import { ReactSVG } from 'react-svg';
-import messangerIcon from 'assets/icons/messanger.svg';
-import linkedInIcon from 'assets/icons/linkedin.svg';
-import githubIcon from 'assets/icons/github.svg';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const StyledMessageBox = styled.div`
   margin: 0 auto;
@@ -57,50 +49,23 @@ const StyledSection = styled.section`
   min-height: 100vh;
 `;
 
-const Contact = ({ title, data, icons }) => {
-  useEffect(() => {
-    // gsap.fromTo(txtBoxRef.current.children,
-    //   { x: '+=200', opacity: 0 },
-    //   {
-    //     x: '0',
-    //     opacity: 1,
-    //     stagger: 0.6,
-    //     duration: 0.4,
-    //   });
-
-    // gsap.fromTo(triangleRef.current,
-    //   { opacity: 0 },
-    //   {
-    //     opacity: 1,
-    //     duration: 3,
-    //   });
-
-    // gsap.fromTo(imgRef.current,
-    //   { opacity: 0 },
-    //   {
-    //     opacity: 1,
-    //     duration: 3,
-    //   });
-  });
-
-  return (
-    <StyledSection id="contactSection">
-      <Wrapper>
-        <SectionHeading>
-          {title}
-        </SectionHeading>
-        <TwoColumns>
-          <StyledMediaBox>
-            {icons && icons.map((icon) => <StyledImg src={icon.icon.url} alt="contact" onClick={() => window.open(icon.link, '_blank')} />)}
-          </StyledMediaBox>
-          <StyledMessageBox>
-            <StyledHeading>leave me a message</StyledHeading>
-            <MessageForm data={data} />
-          </StyledMessageBox>
-        </TwoColumns>
-      </Wrapper>
-    </StyledSection>
-  );
-};
+const Contact = ({ title, data, icons }) => (
+  <StyledSection id="contactSection">
+    <Wrapper>
+      <SectionHeading>
+        {title}
+      </SectionHeading>
+      <TwoColumns>
+        <StyledMediaBox>
+          {icons && icons.map((icon) => <StyledImg key={icon.id} src={icon.icon.url} alt="contact" onClick={() => window.open(icon.link, '_blank')} />)}
+        </StyledMediaBox>
+        <StyledMessageBox>
+          <StyledHeading>{data && data.heading}</StyledHeading>
+          <MessageForm data={data} />
+        </StyledMessageBox>
+      </TwoColumns>
+    </Wrapper>
+  </StyledSection>
+);
 
 export default Contact;

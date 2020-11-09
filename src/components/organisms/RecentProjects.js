@@ -11,7 +11,7 @@ import ProjectsDesktopBox from 'components/molecules/ProjectsDesktopBox';
 gsap.registerPlugin(ScrollTrigger);
 
 const RecentProjects = ({ title, data }) => {
-  const [isDesktop, setIsDestkop] = useState(true);
+  const [isDesktop, setIsDestkop] = useState(false);
   const desktopBreakpoint = breakpoint.M.split('px')[0] * 1;
 
   useEffect(() => {
