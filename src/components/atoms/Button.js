@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 const buttonShadowAnim = keyframes`
 0% {
@@ -9,7 +9,7 @@ const buttonShadowAnim = keyframes`
 100% {
   opacity: 1;
 }
-`
+`;
 const buttonAnim = keyframes`
 0% {
   opacity: 1;
@@ -32,7 +32,7 @@ const buttonAnim = keyframes`
 100% {
   opacity: 1;
 }
-`
+`;
 
 const StyledButton = styled.button`
   position: relative;
@@ -60,14 +60,31 @@ const StyledButton = styled.button`
   }
 `;
 
-const Button = ({ children, className, onClick, disabled, type }) => (
-  <StyledButton className={className} onClick={onClick} disabled={disabled} type={type}>
+const Button = ({
+  children, className, onClick, disabled, type,
+}) => (
+  <StyledButton
+    className={className}
+    onClick={onClick}
+    disabled={disabled}
+    type={type}
+  >
     {children}
   </StyledButton>
 );
 
-// button.propTypes = {
+Button.propTypes = {
+  children: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  onClick: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+  type: PropTypes.string,
+};
 
-// };
+Button.defaultProps = {
+  className: null,
+  disabled: null,
+  type: null,
+};
 
 export default Button;

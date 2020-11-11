@@ -1,7 +1,7 @@
 import mainTheme from 'themes/mainTheme';
 
 export const inputMixin = () => (
-    `
+  `
     display: block;
     width: 100%;
     height: 6rem;
@@ -32,4 +32,4 @@ export const inputMixin = () => (
         transform: scale(.6) translate(-40%, -200%);
     }
     `
-)
+);

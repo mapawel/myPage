@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const Svg = styled.svg`
     width: 500px;
@@ -11,9 +12,17 @@ const Svg = styled.svg`
 `;
 
 const Rect = React.forwardRef(({ className }, ref) => (
-    <Svg ref={ref} className={className} viewBox="0 0 500 500">
-        <rect width="500" height="500" />
-    </Svg>
+  <Svg ref={ref} className={className} viewBox="0 0 500 500">
+    <rect width="500" height="500" />
+  </Svg>
 ));
+
+Rect.propTypes = {
+  className: PropTypes.string,
+};
+
+Rect.defaultProps = {
+  className: null,
+};
 
 export default Rect;

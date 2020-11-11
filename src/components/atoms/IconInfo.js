@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import Heading from 'components/atoms/Heading';
 import Paragraph from 'components/atoms/Paragraph';
 import { breakpoint } from 'breakpoints';
-
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -53,15 +52,17 @@ const IconInfo = ({ title, content, icon }) => (
     </StyledIconBox>
     <StyledTxtBox>
       <StyledHeading>{title && title.toUpperCase()}</StyledHeading>
-      {content && content.map((bullet, index) => (
-        <Paragraph key={index}>{bullet}</Paragraph>
+      {content && content.map((bullet) => (
+        <Paragraph key={bullet}>{bullet}</Paragraph>
       ))}
     </StyledTxtBox>
   </StyledContainer>
 );
 
-// IconInfo.propTypes = {
-
-// };
+IconInfo.propTypes = {
+  title: PropTypes.string.isRequired,
+  content: PropTypes.arrayOf(PropTypes.string).isRequired,
+  icon: PropTypes.string.isRequired,
+};
 
 export default IconInfo;

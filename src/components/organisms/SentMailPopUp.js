@@ -174,9 +174,7 @@ const SentMailPopUp = ({ togglePopup, sentStatus }) => {
       .to(paragraphRef.current, { duration: sentStatus === 400 ? 4 : 2, opacity: 1 })
       .to(wrapperRef.current, { duration: 0.5, opacity: 0, onComplete: () => togglePopup(0) });
   });
-  const notDelivered = () => {
 
-  };
   return (
     <StyledShadowWrapper ref={wrapperRef}>
       <StyledContainer>

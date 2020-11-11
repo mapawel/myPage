@@ -1,5 +1,4 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import RootTemplate from 'templates/RootTemplate';
 import Header from 'components/organisms/Header';
 import TechSkills from 'components/organisms/TechSkills';
@@ -16,22 +15,18 @@ const Root = () => (
         ({
           header, sectiontitles, techSkills, personalBoxes, personalIcons, projects, contactForm, contactIcons,
         }) => (
-            <>
-              <Header data={header} />
-              <TechSkills title={sectiontitles && sectiontitles[0]} data={techSkills} />
-              <PersonalInfo title={sectiontitles && sectiontitles[1]} dataBoxes={personalBoxes} dataIcons={personalIcons} />
-              <RecentProjects title={sectiontitles && sectiontitles[2]} data={projects} />
-              <Contact title={sectiontitles && sectiontitles[3]} data={contactForm} icons={contactIcons} />
-              <Footer />
-            </>
-          )
+          <>
+            <Header data={header} />
+            <TechSkills title={sectiontitles && sectiontitles[0]} data={techSkills} />
+            <PersonalInfo title={sectiontitles && sectiontitles[1]} dataBoxes={personalBoxes} dataIcons={personalIcons} />
+            <RecentProjects title={sectiontitles && sectiontitles[2]} data={projects} />
+            <Contact title={sectiontitles && sectiontitles[3]} data={contactForm} icons={contactIcons} />
+            <Footer />
+          </>
+        )
       }
     />
   </RootTemplate>
 );
-
-// Root.propTypes = {
-
-// };
 
 export default Root;

@@ -11,6 +11,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // import PropTypes from 'prop-types';
 
 gsap.registerPlugin(ScrollTrigger);
+gsap.config({
+  nullTargetWarn: false,
+});
 
 const StyledTwoColumns = styled(TwoColumns)`
   margin-bottom: 8rem;

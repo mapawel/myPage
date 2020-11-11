@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { breakpoint } from 'breakpoints';
 
@@ -35,7 +36,7 @@ const SectionHeading = ({ children, className }) => {
   useEffect(() => {
     const checkIsWide = () => setIsWide(window.innerWidth >= 440);
     window.addEventListener('resize', checkIsWide);
-    checkIsWide()
+    checkIsWide();
   }, []);
 
   return (
@@ -43,10 +44,19 @@ const SectionHeading = ({ children, className }) => {
       {isWide ? (
         <text x="50%" y="120" textAnchor="middle" fill="none" strokeWidth="1">{children}</text>
       ) : (
-          <text x="50%" y="120" textAnchor="middle" fill="none" strokeWidth="1" textLength="340" lengthAdjust="spacingAndGlyphs">{children}</text>
-        )}
+        <text x="50%" y="120" textAnchor="middle" fill="none" strokeWidth="1" textLength="340" lengthAdjust="spacingAndGlyphs">{children}</text>
+      )}
     </Svg>
   );
+};
+
+SectionHeading.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.string.isRequired,
+};
+
+SectionHeading.defaultProps = {
+  className: null,
 };
 
 export default SectionHeading;

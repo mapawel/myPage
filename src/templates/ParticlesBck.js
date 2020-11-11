@@ -1,4 +1,6 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Particles from 'particlesjs';
 import { withTheme } from 'styled-components';
 
@@ -53,6 +55,10 @@ const ParticlesBck = ({ theme }) => {
   return (
     <canvas className="background" />
   );
+};
+
+ParticlesBck.propTypes = {
+  theme: PropTypes.object.isRequired,
 };
 
 export default withTheme(ParticlesBck);

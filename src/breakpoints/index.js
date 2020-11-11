@@ -4,4 +4,4 @@ export const breakpoint = {
   M: '850px',
   L: '1250px',
   XL: '2500px',
-}
+};

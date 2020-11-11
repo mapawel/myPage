@@ -117,7 +117,6 @@ const MessageForm = ({ data }) => {
                 id="category"
                 onChange={handleChange}
                 value={values.category}
-                labelTxt={data && data.placeholder3}
                 headerTxt={data && data.title3}
                 select={data && [['---', '---'], ...data.placeholder3.map((category) => [category, category])]}
               >
@@ -130,7 +129,7 @@ const MessageForm = ({ data }) => {
                 value={values.content}
                 labelTxt={data && data.placeholder4}
                 headerTxt={data && data.title4}
-                textarea
+                textarea={1}
               >
                 <ErrorMessage component={StyledError} name="content" />
               </Input>

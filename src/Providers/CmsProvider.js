@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { request } from 'graphql-request';
 import { Waiter } from 'components/organisms/Waiter';
 
@@ -147,14 +147,14 @@ const CmsProvider = ({ render }) => {
       {dataFetched ? (
         render(state)
       ) : (
-          <Waiter />
-        )}
+        <Waiter />
+      )}
     </>
   );
 };
 
-// CmsProvider.propTypes = {
-
-// };
+CmsProvider.propTypes = {
+  render: PropTypes.func.isRequired,
+};
 
 export default CmsProvider;

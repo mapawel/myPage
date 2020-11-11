@@ -21,7 +21,7 @@ const RecentProjects = ({ title, data }) => {
     };
     window.addEventListener('resize', getWidth);
     getWidth();
-  }, []);
+  }, [desktopBreakpoint]);
 
   return (
     <section>

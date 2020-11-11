@@ -58,7 +58,7 @@ const StyledInputHeader = styled(Paragraph)`
 `;
 
 const Input = ({
-  select, textarea, id, onChange, value, labelTxt, children, className, name, headerTxt, ...props
+  select, textarea, id, onChange, value, labelTxt, children, name, headerTxt, ...props
 }) => {
   let Tag = select ? StyledSelect : StyledInput;
   Tag = textarea ? StyledTextArea : Tag;
@@ -102,7 +102,6 @@ Input.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.instanceOf(Date)]),
   labelTxt: PropTypes.string,
   children: PropTypes.node,
-  className: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   headerTxt: PropTypes.string,
 };

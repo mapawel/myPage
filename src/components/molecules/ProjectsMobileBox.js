@@ -30,7 +30,7 @@ const ProjectsMobileBox = ({ isDesktop, data, mobile }) => {
               scrollTrigger:
               {
                 trigger: project,
-                start: 'top 50%',
+                start: 'top 65%',
               },
             });
         });
