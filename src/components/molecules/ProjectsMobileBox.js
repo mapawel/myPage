@@ -1,12 +1,11 @@
 import React, { useRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ProjectBox from 'components/molecules/ProjectBox';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
-
-// import PropTypes from 'prop-types';
 
 const StyledMobileBox = styled.div`
   display: ${({ isDesktop }) => (isDesktop ? 'none' : 'flex')};
@@ -45,14 +44,20 @@ const ProjectsMobileBox = ({ isDesktop, data, mobile }) => {
       {data && data.map(({
         id, title, images, description, code, live,
       }) => (
-          <ProjectBox key={id} title={title} images={images} description={description} code={code} live={live} mobile={mobile} />
-        ))}
+        <ProjectBox key={id} title={title} images={images} description={description} code={code} live={live} mobile={mobile} />
+      ))}
     </StyledMobileBox>
   );
 };
 
-// ProjectsMobileBox.propTypes = {
+ProjectsMobileBox.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isDesktop: PropTypes.bool.isRequired,
+  mobile: PropTypes.bool,
+};
 
-// };
+ProjectsMobileBox.defaultProps = {
+  mobile: null,
+};
 
 export default ProjectsMobileBox;

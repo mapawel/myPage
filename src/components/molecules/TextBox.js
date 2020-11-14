@@ -1,4 +1,6 @@
+/* eslint-disable no-bitwise */
 import React, { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Heading from 'components/atoms/Heading';
 import Triangle from 'components/atoms/Triangle';
@@ -7,7 +9,6 @@ import Rect from 'components/atoms/Rect';
 import { breakpoint } from 'breakpoints';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-// import PropTypes from 'prop-types';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -111,8 +112,14 @@ const TextBox = ({ rect, triangle, data }) => {
   );
 };
 
-// TextBox.propTypes = {
-
-// };
+TextBox.propTypes = {
+  rect: PropTypes.bool,
+  triangle: PropTypes.bool,
+  data: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.array])).isRequired,
+};
+TextBox.defaultProps = {
+  rect: null,
+  triangle: null,
+};
 
 export default TextBox;

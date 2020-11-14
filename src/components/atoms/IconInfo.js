@@ -1,9 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Heading from 'components/atoms/Heading';
 import Paragraph from 'components/atoms/Paragraph';
 import { breakpoint } from 'breakpoints';
-import PropTypes from 'prop-types';
 
 const StyledContainer = styled.div`
   display: flex;

@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import Paragraph from 'components/atoms/Paragraph';
 import { inputMixin } from 'components/atoms/inputMixin';
 

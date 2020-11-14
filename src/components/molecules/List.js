@@ -1,4 +1,6 @@
+/* eslint-disable no-bitwise */
 import React, { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import styled, { css, keyframes } from 'styled-components';
 import Heading from 'components/atoms/Heading';
 import Rect from 'components/atoms/Rect';
@@ -6,7 +8,6 @@ import Triangle from 'components/atoms/Triangle';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { breakpoint } from 'breakpoints';
-// import PropTypes from 'prop-types';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,7 +18,7 @@ const blink = keyframes`
   to {
     opacity: .05;
   }
-`
+`;
 
 const StyledContainer = styled.div`
   position: relative;
@@ -227,10 +228,10 @@ const List = ({ title, content, nr }) => {
   );
 };
 
-// List.propTypes = {
-
-// };
+List.propTypes = {
+  title: PropTypes.string.isRequired,
+  content: PropTypes.arrayOf(PropTypes.object).isRequired,
+  nr: PropTypes.number.isRequired,
+};
 
 export default List;
-
-// style={{ marginLeft: `${3*index}rem` }}

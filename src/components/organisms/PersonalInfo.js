@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import PropTypes from 'prop-types';
 import Wrapper from 'templates/Wrapper';
 import styled from 'styled-components';
 import TwoColumns from 'templates/TwoColumns';
@@ -8,7 +9,6 @@ import TextBox from 'components/molecules/TextBox';
 import { breakpoint } from 'breakpoints';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-// import PropTypes from 'prop-types';
 
 gsap.registerPlugin(ScrollTrigger);
 gsap.config({
@@ -76,7 +76,7 @@ const PersonalInfo = ({ title, dataBoxes, dataIcons }) => {
         <StyledTwoColumns>
           <TextBox data={dataBoxes && dataBoxes[0]} rect />
           <StyledColumn ref={firstIconsArrRef}>
-            {iconsFirsArr.length !==0 && iconsFirsArr.map((element) => (
+            {iconsFirsArr.length !== 0 && iconsFirsArr.map((element) => (
               <IconInfo key={element.id} title={element.title} content={element.content} icon={element.icon.url} />
             ))}
           </StyledColumn>
@@ -94,8 +94,10 @@ const PersonalInfo = ({ title, dataBoxes, dataIcons }) => {
   );
 };
 
-// PersonalInfo.propTypes = {
-
-// };
+PersonalInfo.propTypes = {
+  title: PropTypes.string.isRequired,
+  dataBoxes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  dataIcons: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default PersonalInfo;

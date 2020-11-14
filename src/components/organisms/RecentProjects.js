@@ -4,7 +4,7 @@ import SectionHeading from 'components/atoms/SectionHeading';
 import { breakpoint } from 'breakpoints';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import ProjectsMobileBox from 'components/molecules/ProjectsMobileBox';
 import ProjectsDesktopBox from 'components/molecules/ProjectsDesktopBox';
 
@@ -27,7 +27,7 @@ const RecentProjects = ({ title, data }) => {
     <section>
       <Wrapper>
         <SectionHeading>
-        {title}
+          {title}
         </SectionHeading>
         <ProjectsDesktopBox
           isDesktop={isDesktop}
@@ -43,8 +43,9 @@ const RecentProjects = ({ title, data }) => {
   );
 };
 
-// RecentProjects.propTypes = {
-
-// };
+RecentProjects.propTypes = {
+  title: PropTypes.string.isRequired,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default RecentProjects;

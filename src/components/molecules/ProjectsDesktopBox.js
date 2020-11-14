@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
 import ProjectBox from 'components/molecules/ProjectBox';
 import { breakpoint } from 'breakpoints';
@@ -8,8 +9,6 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
-
-// import PropTypes from 'prop-types';
 
 const pulse = keyframes`
   from {
@@ -95,8 +94,8 @@ const ProjectsDesktopBox = ({ data, isDesktop }) => {
         {data && data.map(({
           id, title, images, description, code, live,
         }) => (
-            <ProjectBox key={id} title={title} images={images} description={description} code={code} live={live} />
-          ))}
+          <ProjectBox key={id} title={title} images={images} description={description} code={code} live={live} />
+        ))}
       </StyledSlideBox>
       {isDesktop && isScrollVisible && <StyledReactSvg src={scrollIcon} />}
     </>
@@ -104,8 +103,9 @@ const ProjectsDesktopBox = ({ data, isDesktop }) => {
   );
 };
 
-// ProjectsDesktopBox.propTypes = {
-
-// };
+ProjectsDesktopBox.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isDesktop: PropTypes.bool.isRequired,
+};
 
 export default ProjectsDesktopBox;

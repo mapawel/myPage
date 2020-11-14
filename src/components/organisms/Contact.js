@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Wrapper from 'templates/Wrapper';
 import SectionHeading from 'components/atoms/SectionHeading';
@@ -67,5 +68,11 @@ const Contact = ({ title, data, icons }) => (
     </Wrapper>
   </StyledSection>
 );
+
+Contact.propTypes = {
+  title: PropTypes.string.isRequired,
+  data: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.array])).isRequired,
+  icons: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default Contact;

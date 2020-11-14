@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import styled, { css, keyframes } from 'styled-components';
 import Input from 'components/atoms/Input';
 import Button from 'components/atoms/Button';
@@ -8,7 +9,6 @@ import { sendMail } from 'actions/sendmail';
 import SentMailPopUp from 'components/organisms/SentMailPopUp';
 import spinnerIcon from 'assets/icons/spinner.svg';
 
-// import PropTypes from 'prop-types';
 const spin = keyframes`
   from {
     transform: rotate(0)
@@ -85,68 +85,67 @@ const MessageForm = ({ data }) => {
           handleChange,
           handleSubmit,
           isSubmitting,
-          setFieldValue,
           resetForm,
         }) => (
 
-            <StyledForm
-              onSubmit={(e) => e.preventDefault()}
+          <StyledForm
+            onSubmit={(e) => e.preventDefault()}
+          >
+            <Input
+              name="name"
+              id="name"
+              onChange={handleChange}
+              value={values.name}
+              labelTxt={data && data.placeholder1}
+              headerTxt={data && data.title1}
             >
-              <Input
-                name="name"
-                id="name"
-                onChange={handleChange}
-                value={values.name}
-                labelTxt={data && data.placeholder1}
-                headerTxt={data && data.title1}
+              <ErrorMessage component={StyledError} name="name" />
+            </Input>
+            <Input
+              name="mail"
+              id="mail"
+              onChange={handleChange}
+              value={values.mail}
+              labelTxt={data && data.placeholder2}
+              headerTxt={data && data.title2}
+            >
+              <ErrorMessage component={StyledError} name="mail" />
+            </Input>
+            <Input
+              name="category"
+              id="category"
+              onChange={handleChange}
+              value={values.category}
+              headerTxt={data && data.title3}
+              select={data && [['---', '---'], ...data.placeholder3.map((category) => [category, category])]}
+            >
+              <ErrorMessage component={StyledError} name="category" />
+            </Input>
+            <Input
+              name="content"
+              id="content"
+              onChange={handleChange}
+              value={values.content}
+              labelTxt={data && data.placeholder4}
+              headerTxt={data && data.title4}
+              textarea={1}
+            >
+              <ErrorMessage component={StyledError} name="content" />
+            </Input>
+            <StyledButtonBox>
+              <StyledSubmitButton
+                type="submit"
+                onClick={handleSubmit}
+                disabled={isSubmitting}
               >
-                <ErrorMessage component={StyledError} name="name" />
-              </Input>
-              <Input
-                name="mail"
-                id="mail"
-                onChange={handleChange}
-                value={values.mail}
-                labelTxt={data && data.placeholder2}
-                headerTxt={data && data.title2}
-              >
-                <ErrorMessage component={StyledError} name="mail" />
-              </Input>
-              <Input
-                name="category"
-                id="category"
-                onChange={handleChange}
-                value={values.category}
-                headerTxt={data && data.title3}
-                select={data && [['---', '---'], ...data.placeholder3.map((category) => [category, category])]}
-              >
-                <ErrorMessage component={StyledError} name="category" />
-              </Input>
-              <Input
-                name="content"
-                id="content"
-                onChange={handleChange}
-                value={values.content}
-                labelTxt={data && data.placeholder4}
-                headerTxt={data && data.title4}
-                textarea={1}
-              >
-                <ErrorMessage component={StyledError} name="content" />
-              </Input>
-              <StyledButtonBox>
-                <StyledSubmitButton
-                  type="submit"
-                  onClick={handleSubmit}
-                  disabled={isSubmitting}
-                >
-                  send
+                send
 
               </StyledSubmitButton>
-                <Button onClick={resetForm}>clear</Button>
-              </StyledButtonBox>
-            </StyledForm>
+              <Button onClick={resetForm}>clear</Button>
+            </StyledButtonBox>
+          </StyledForm>
 
-          )}
+        )}
       </Formik>
       {(sentMailStatus !== 0) ? <SentMailPopUp togglePopup={handleSentMailFeedback} sentStatus={sentMailStatus} /> : null}
     </>
@@ -154,8 +153,8 @@ const MessageForm = ({ data }) => {
   );
 };
 
-// MessageForm.propTypes = {
-
-// };
+MessageForm.propTypes = {
+  data: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.array])).isRequired,
+};
 
 export default MessageForm;

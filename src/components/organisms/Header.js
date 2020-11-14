@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
 import Wrapper from 'templates/Wrapper';
 import TwoColumns from 'templates/TwoColumns';
@@ -251,6 +252,10 @@ const Header = ({ data: { headings, headerImageUrl } }) => {
       </Wrapper>
     </header>
   );
+};
+
+Header.propTypes = {
+  data: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.array])).isRequired,
 };
 
 export default Header;

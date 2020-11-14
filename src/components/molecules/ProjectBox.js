@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Heading from 'components/atoms/Heading';
 import Paragraph from 'components/atoms/Paragraph';
@@ -8,7 +9,6 @@ import { breakpoint } from 'breakpoints';
 import { ReactSVG } from 'react-svg';
 import eyeIcon from 'assets/icons/eye.svg';
 import OpenBoxProvider from 'Providers/OpenBoxProvider';
-// import PropTypes from 'prop-types';
 
 const StyledContainer = styled.div`
   position: relative;
@@ -262,38 +262,47 @@ const StyledInnerSliderBox = styled.div`
 const ProjectBox = ({
   title, images, description, mobile, code, live,
 }) => (
-    <StyledInnerSliderBox mobile={mobile}>
-      <OpenBoxProvider
-        render={
-          (isToolVisible, setToolVisible) => (
-            <StyledContainer mobile={mobile} onClick={() => setToolVisible(true)}>
-              <StyledHedingBox>
-                <StyledHeading>{title && title.toUpperCase()}</StyledHeading>
-                <StyledReactSVG src={eyeIcon} />
-              </StyledHedingBox>
-              <StyledImgBox>
-                {images.length !== 0 && images.map(({ id, url}) => (
-                  <StyledImg key={id} src={url} />
-                ))}
-              </StyledImgBox>
-              <StyledParagraph isToolVisible={isToolVisible}>{description}</StyledParagraph>
-              <StyledRect />
-              <StyledToolBox isToolVisible={isToolVisible} onMouseLeave={() => setToolVisible(false)}>
-                <StyledButtonBox>
-                  <StyledStandardButton onClick={(e) => {e.stopPropagation(); setToolVisible(false)}} />
-                  <StyledButton onClick={()=> window.open(live, "_blank")}>visit live page</StyledButton>
-                  <StyledButton onClick={()=> window.open(code, "_blank")}>check code source</StyledButton>
-                </StyledButtonBox>
-              </StyledToolBox>
-            </StyledContainer>
-          )
-        }
-      />
-    </StyledInnerSliderBox>
-  );
+  <StyledInnerSliderBox mobile={mobile}>
+    <OpenBoxProvider
+      render={
+        (isToolVisible, setToolVisible) => (
+          <StyledContainer mobile={mobile} onClick={() => setToolVisible(true)}>
+            <StyledHedingBox>
+              <StyledHeading>{title && title.toUpperCase()}</StyledHeading>
+              <StyledReactSVG src={eyeIcon} />
+            </StyledHedingBox>
+            <StyledImgBox>
+              {images.length !== 0 && images.map(({ id, url }) => (
+                <StyledImg key={id} src={url} />
+              ))}
+            </StyledImgBox>
+            <StyledParagraph isToolVisible={isToolVisible}>{description}</StyledParagraph>
+            <StyledRect />
+            <StyledToolBox isToolVisible={isToolVisible} onMouseLeave={() => setToolVisible(false)}>
+              <StyledButtonBox>
+                <StyledStandardButton onClick={(e) => { e.stopPropagation(); setToolVisible(false); }} />
+                <StyledButton onClick={() => window.open(live, '_blank')}>visit live page</StyledButton>
+                <StyledButton onClick={() => window.open(code, '_blank')}>check code source</StyledButton>
+              </StyledButtonBox>
+            </StyledToolBox>
+          </StyledContainer>
+        )
+      }
+    />
+  </StyledInnerSliderBox>
+);
 
-// ProjectBox.propTypes = {
+ProjectBox.propTypes = {
+  title: PropTypes.string.isRequired,
+  images: PropTypes.arrayOf(PropTypes.object).isRequired,
+  description: PropTypes.string.isRequired,
+  mobile: PropTypes.bool,
+  code: PropTypes.string.isRequired,
+  live: PropTypes.string.isRequired,
+};
 
-// };
+ProjectBox.defaultProps = {
+  mobile: null,
+};
 
 export default ProjectBox;

@@ -1,10 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Wrapper from 'templates/Wrapper';
 import SectionHeading from 'components/atoms/SectionHeading';
 import List from 'components/molecules/List';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-// import PropTypes from 'prop-types';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,8 +21,9 @@ const TechSkills = ({ title, data }) => (
   </section>
 );
 
-// TechSkills.propTypes = {
-
-// };
+TechSkills.propTypes = {
+  title: PropTypes.string.isRequired,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default TechSkills;

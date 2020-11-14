@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import gsap from 'gsap';
 import Paragraph from 'components/atoms/Paragraph';
-// import PropTypes from 'prop-types';
+
 const tl = gsap.timeline({ delay: 0 });
 
 const StyledShadowWrapper = styled.div`
@@ -151,9 +152,9 @@ const SentMailPopUp = ({ togglePopup, sentStatus }) => {
       const animTarget = {
         duration: 1, x: '0', y: '0', scale: 0.6, opacity: 0.4, rotate: -30,
       };
-      const animBlank = {}
-      if (sentStatus === 400) return animTarget
-      else return animBlank;
+      const animBlank = {};
+      if (sentStatus === 400) return animTarget;
+      return animBlank;
     };
     tl
       .to(wrapperRef.current, { duration: 0.5, opacity: 1 })
@@ -204,8 +205,9 @@ const SentMailPopUp = ({ togglePopup, sentStatus }) => {
   );
 };
 
-// SentMailPopUp.propTypes = {
-
-// };
+SentMailPopUp.propTypes = {
+  togglePopup: PropTypes.func.isRequired,
+  sentStatus: PropTypes.number.isRequired,
+};
 
 export default SentMailPopUp;
