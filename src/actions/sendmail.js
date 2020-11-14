@@ -21,5 +21,6 @@ export const sendMail = async (values, handleSentMailFeedback) => {
     handleSentMailFeedback(res.status);
   } catch (err) {
     handleSentMailFeedback(err.status);
+    console.log(err)
   }
 };
