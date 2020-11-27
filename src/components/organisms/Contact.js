@@ -50,8 +50,8 @@ const StyledSection = styled.section`
   min-height: 100vh;
 `;
 
-const Contact = ({ title, data, icons }) => (
-  <StyledSection id="contactSection">
+const Contact = ({ title, data, icons, sectionId }) => (
+  <StyledSection id={sectionId}>
     <Wrapper>
       <SectionHeading>
         {title}

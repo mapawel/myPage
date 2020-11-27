@@ -11,9 +11,11 @@ const GlobalStyle = createGlobalStyle`
 
     html {
         font-size: 62.5%;
+
     }
 
     body {
+        overscroll-behavior-y: contain;
         color: ${({ theme }) => theme.color.textSecondary};
         overflow-x: hidden;
         font-family: 'Orbitron', sans-serif;

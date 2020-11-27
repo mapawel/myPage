@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
 const buttonShadowAnim = keyframes`
 0% {
@@ -41,8 +41,25 @@ const StyledButton = styled.button`
   border: ${({ theme }) => `2px solid ${theme.color.textPrimary}`};
   padding: 1.5rem 2rem;
   font-family: 'Press Start 2P', cursive;
+  ${({ variant }) => {
+    switch (variant) {
+      case 'noborder':
+        return css`
+        border: ${({ theme }) => `0px solid ${theme.color.textPrimary}`};
+        `;
+      case 'cta':
+        return css`
+          border: ${({ theme }) => `5px solid ${theme.color.textPrimary}`};
+        `;
+      default:
+        return css`
+        border: ${({ theme }) => `2px solid ${theme.color.textPrimary}`};
+        `;
+    }
+  }
+}
   cursor: pointer;
-  &::before{
+  ::before{
     content: '';
     position: absolute;
     top: 0;
@@ -52,22 +69,23 @@ const StyledButton = styled.button`
     box-shadow: inset 0 0 1rem lime;
     opacity: 0;
   }
-  &:hover{
+  :hover{
     animation: ${buttonAnim} .5s;
-    &::before{
+    ::before{
       animation: ${buttonShadowAnim} .6s .2s both;
     }
   }
 `;
 
 const Button = ({
-  children, className, onClick, disabled, type,
+  children, className, onClick, disabled, type, variant,
 }) => (
   <StyledButton
     className={className}
     onClick={onClick}
     disabled={disabled}
     type={type}
+    variant={variant}
   >
     {children}
   </StyledButton>
@@ -76,15 +94,18 @@ const Button = ({
 Button.propTypes = {
   children: PropTypes.string.isRequired,
   className: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   disabled: PropTypes.bool,
   type: PropTypes.string,
+  variant: PropTypes.string,
 };
 
 Button.defaultProps = {
   className: null,
   disabled: null,
   type: null,
+  onClick: null,
+  variant: null,
 };
 
 export default Button;

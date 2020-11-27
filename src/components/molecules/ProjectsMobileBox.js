@@ -11,6 +11,7 @@ const StyledMobileBox = styled.div`
   display: ${({ isDesktop }) => (isDesktop ? 'none' : 'flex')};
   flex-direction: column;
   align-items: center;
+  opacity: 0;
 `;
 
 const ProjectsMobileBox = ({ isDesktop, data, mobile }) => {
@@ -18,6 +19,7 @@ const ProjectsMobileBox = ({ isDesktop, data, mobile }) => {
   useEffect(() => {
     if (data && !isDesktop) {
       setTimeout(() => {
+        gsap.set(projectsMobileRef.current, { opacity: 1 });
         const projects = gsap.utils.toArray(projectsMobileRef.current.children);
         projects.forEach((project) => {
           gsap.fromTo(project,
@@ -35,6 +37,7 @@ const ProjectsMobileBox = ({ isDesktop, data, mobile }) => {
         });
       }, 100);
     }
+    return () => ScrollTrigger.getAll().forEach((t) => t.kill());
   }, [data, isDesktop]);
   return (
     <StyledMobileBox

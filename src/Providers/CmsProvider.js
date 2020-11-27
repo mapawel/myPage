@@ -23,10 +23,10 @@ const reducer = (state, { type, payload }) => {
   switch (type) {
     case 'ADD_DATA':
       headingsArr = payload.headers.map((header) => header.text);
-      sectiontitlesArr = payload.sectiontitles.map((sectiontitle) => sectiontitle.title);
+      // sectiontitlesArr = payload.sectiontitles.map((sectiontitle) => sectiontitle.title);
       return {
         ...state,
-        sectiontitles: sectiontitlesArr,
+        sectiontitles: payload.sectiontitles,
         header: {
           headings: headingsArr,
           headerImageUrl: payload.photos[0].image[0].url,
@@ -63,6 +63,8 @@ const CmsProvider = ({ render }) => {
         }
         sectiontitles{
           title
+          titleMenuId
+          path
         }
         techStackLists {
           id

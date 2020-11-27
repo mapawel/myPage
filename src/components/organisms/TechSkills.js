@@ -8,8 +8,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const TechSkills = ({ title, data }) => (
-  <section>
+const TechSkills = ({ title, data, sectionId }) => (
+  <section id={sectionId}>
     <Wrapper>
       <SectionHeading>
         {title}

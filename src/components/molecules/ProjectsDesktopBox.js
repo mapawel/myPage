@@ -53,7 +53,7 @@ const StyledReactSvg = styled(ReactSVG)`
 
 const ProjectsDesktopBox = ({ data, isDesktop }) => {
   const [isScrollVisible, setScrollVisible] = useState(false);
-  const projectsRef = useRef();
+  const projectsRef = useRef(null);
 
   useEffect(() => {
     let sliderTop;
@@ -64,6 +64,11 @@ const ProjectsDesktopBox = ({ data, isDesktop }) => {
     };
     window.addEventListener('resize', handleSliderVisibility);
     window.addEventListener('scroll', handleSliderVisibility);
+
+    return () => {
+      window.removeEventListener('resize', handleSliderVisibility);
+      window.removeEventListener('scroll', handleSliderVisibility);
+    };
   }, []);
 
   useEffect(() => {
@@ -80,11 +85,13 @@ const ProjectsDesktopBox = ({ data, isDesktop }) => {
           pin: true,
           scrub: 1,
           start: 'top 70',
-          end: () => `+=${projectsRef.current.offsetWidth}`,
+          end: projectsRef ? () => `+=${projectsRef.current.offsetWidth}` : {},
         },
       });
     }
+    return () => ScrollTrigger.getAll().forEach((t) => t.kill());
   }, [data, isDesktop]);
+
   return (
     <>
       <StyledSlideBox
