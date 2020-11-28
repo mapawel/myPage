@@ -50,8 +50,10 @@ const StyledSection = styled.section`
   min-height: 100vh;
 `;
 
-const Contact = ({ title, data, icons }) => (
-  <StyledSection id="contactSection">
+const Contact = ({
+  title, data, icons, sectionId,
+}) => (
+  <StyledSection id={sectionId}>
     <Wrapper>
       <SectionHeading>
         {title}
@@ -70,6 +72,7 @@ const Contact = ({ title, data, icons }) => (
 );
 
 Contact.propTypes = {
+  sectionId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   data: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.array])).isRequired,
   icons: PropTypes.arrayOf(PropTypes.object).isRequired,

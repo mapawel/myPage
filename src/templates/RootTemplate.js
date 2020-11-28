@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import GlobalStyle from 'themes/GlobalStyle';
 import styled, { ThemeProvider, keyframes } from 'styled-components';
 import mainTheme from 'themes/mainTheme';
 import ParticlesBck from 'templates/ParticlesBck';
 import noise from 'assets/images/noise.png';
-import Switch from 'templates/Switch';
+import AppContext from 'Context';
+import SwitchProvider from 'Providers/SwitchProvider';
 
 const moveGrain = keyframes`
   0% {transform: translate(0, 0)}
@@ -33,19 +34,23 @@ const Noise = styled.div`
   opacity: ${({ grainVisible }) => (grainVisible ? '0.5' : '0')};
 `;
 
-const RootTemplate = ({ children }) => {
-  const [grainVisible, setGrainVisible] = useState(false);
+const RootTemplate = ({ children }) => (
+  <SwitchProvider
+    render={
+      (grainVisible, setGrainVisible) => (
+        <AppContext.Provider value={{ grainVisible, setGrainVisible }}>
+          <ThemeProvider theme={mainTheme}>
+            <GlobalStyle />
+            <ParticlesBck />
+            <Noise grainVisible={grainVisible} />
 
-  return (
-    <ThemeProvider theme={mainTheme}>
-      <GlobalStyle />
-      <ParticlesBck />
-      <Noise grainVisible={grainVisible} />
-      <Switch grainVisible={grainVisible} setGrainVisible={setGrainVisible} />
-      {children}
-    </ThemeProvider>
-  );
-};
+            {children}
+          </ThemeProvider>
+        </AppContext.Provider>
+      )
+    }
+  />
+);
 
 RootTemplate.propTypes = {
   children: PropTypes.node.isRequired,

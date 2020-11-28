@@ -194,7 +194,7 @@ const StyledTriangle = styled(Triangle)`
     }
 `;
 
-const Header = ({ data: { headings, headerImageUrl } }) => {
+const Header = ({ data: { headings, headerImageUrl }, sectionId }) => {
   const txtBoxRef = useRef(null);
   const triangleRef = useRef(null);
   const imgRef = useRef(null);
@@ -226,7 +226,7 @@ const Header = ({ data: { headings, headerImageUrl } }) => {
   }, [headings, headerImageUrl]);
 
   const handleClick = () => {
-    gsap.to(window, { duration: 1, scrollTo: { y: '#contactSection', offsetY: -100 } });
+    gsap.to(window, { duration: 1, scrollTo: { y: `#${sectionId}`, offsetY: -100 } });
   };
 
   return (
@@ -256,6 +256,7 @@ const Header = ({ data: { headings, headerImageUrl } }) => {
 
 Header.propTypes = {
   data: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.array])).isRequired,
+  sectionId: PropTypes.string.isRequired,
 };
 
 export default Header;

@@ -137,11 +137,16 @@ const MessageForm = ({ data }) => {
                 type="submit"
                 onClick={handleSubmit}
                 disabled={isSubmitting}
+                variant="cta"
               >
                 send
-
               </StyledSubmitButton>
-              <Button onClick={resetForm}>clear</Button>
+              <Button
+                onClick={resetForm}
+                variant="noborder"
+              >
+                clear
+              </Button>
             </StyledButtonBox>
           </StyledForm>
 

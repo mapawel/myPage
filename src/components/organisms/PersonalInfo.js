@@ -16,7 +16,10 @@ gsap.config({
 });
 
 const StyledTwoColumns = styled(TwoColumns)`
-  margin-bottom: 8rem;
+  margin: 2rem 0 5rem;
+  :last-child{
+    margin-bottom: 0;
+  }
     @media screen and (min-width: ${breakpoint.S}) {
         flex-direction: column;
     }
@@ -38,7 +41,9 @@ const StyledColumn = styled.div`
     }
 `;
 
-const PersonalInfo = ({ title, dataBoxes, dataIcons }) => {
+const PersonalInfo = ({
+  title, dataBoxes, dataIcons, sectionId,
+}) => {
   const [iconsFirsArr, setIconsFirsArr] = useState([]);
   const [iconsSecondArr, setIconsSecondArr] = useState([]);
   const firstIconsArrRef = useRef(null);
@@ -68,7 +73,7 @@ const PersonalInfo = ({ title, dataBoxes, dataIcons }) => {
     gsap.fromTo(secondIconsArrRef.current.children, { x: '-=500', opacity: 0 }, iconsAnimTarget(secondIconsArrRef.current));
   });
   return (
-    <section>
+    <section id={sectionId}>
       <Wrapper>
         <SectionHeading>
           {title}
@@ -95,6 +100,7 @@ const PersonalInfo = ({ title, dataBoxes, dataIcons }) => {
 };
 
 PersonalInfo.propTypes = {
+  sectionId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   dataBoxes: PropTypes.arrayOf(PropTypes.object).isRequired,
   dataIcons: PropTypes.arrayOf(PropTypes.object).isRequired,
