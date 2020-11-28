@@ -2,16 +2,13 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { breakpoint } from 'breakpoints';
 import PropTypes from 'prop-types';
+import AppContext from 'Context';
 
 const StyledSwitch = styled.div`
   display: none;
-  z-index: 100;
-  position: fixed;
-  height: 0;
-  left: 0;
-  bottom: 6rem;
-  transition: transform .3s;
-  transform: ${({ switchVisible }) => (switchVisible ? 'translateX(0)' : 'translateX(-9rem)')};
+  align-self: flex-start;
+  margin-bottom: 2rem;
+  margin-left: 3rem;
   cursor: pointer;
 
   @media screen and (min-width: ${breakpoint.S}) {
@@ -19,32 +16,24 @@ const StyledSwitch = styled.div`
     }
 `;
 
-const StyledSwitchArrow = styled.div`
-  width: 0; 
-  height: 0;
-  border-top: 3rem solid transparent;
-  border-bottom: 3rem solid transparent; 
-  border-left: 4rem solid #000000; 
-  opacity: .4;
-`;
-
 const StyledSwitchBox = styled.div`
-  width: 8rem;
+  width: 12rem;
   height: 6rem;
+  padding: .8rem 1.5rem 1rem;
   display: flex;
   flex-shrink: 0;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  background-color: #000000;
-  opacity: .4;
+  background-color: #00000035;
 `;
 
 const StyledGroove = styled.div`
-  width: 1.4rem;
-  height: 3.6rem;
+  width: 4.6rem;
+  height: 1.4rem;
   margin-right: .5rem;
-  border: 1px solid lime;
-  box-shadow: inset 0 0 5px lime;
+  border: ${({ theme }) => `1px solid ${theme.color.textPrimary}`};
+  box-shadow: ${({ theme }) => `inset 0 0 3px ${theme.color.textPrimary}`};
 `;
 
 const StyledKnob = styled.div`
@@ -53,48 +42,47 @@ position: relative;
   left: 2px;
   width: 0.8rem;
   height: 0.8rem;
-  background-color: lime;
+  background-color: ${({ theme }) => theme.color.textPrimary};
   border-radius: 2px;
   transition: transform .2s;
-  transform: ${({ grainVisible }) => (grainVisible ? 'translateY(22px)' : 'translateY(0)')};
+  transform: ${({ grainVisible }) => (grainVisible ? 'translateX(32px)' : 'translateX(0)')};
 `;
 
 const StyledTxtBox = styled.div`
-  width: 6rem;
-  padding-left: 1rem;
+  width: 100%;
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
 `;
 
 const StyledP = styled.div`
   font-size: 12px;
-  color: lime;
+  color: ${({ theme }) => theme.color.textPrimary};
   line-height: 2;
 `;
 
-const Switch = ({ grainVisible, setGrainVisible }) => {
-  const [switchVisible, setSwitchVisible] = useState(false);
-  return (
-    <StyledSwitch
-      switchVisible={switchVisible}
-      onMouseOver={() => setSwitchVisible(true)}
-      onMouseLeave={() => setSwitchVisible(false)}
-      onClick={() => setGrainVisible((prevState) => !prevState)}
-    >
-      <StyledSwitchBox>
-        <StyledTxtBox>
-          <StyledP>clean</StyledP>
-          <StyledP>grain</StyledP>
-        </StyledTxtBox>
-        <StyledGroove>
-          <StyledKnob grainVisible={grainVisible} />
-        </StyledGroove>
-      </StyledSwitchBox>
-      <StyledSwitchArrow />
-    </StyledSwitch>
-  );
-};
+const Switch = () => (
+  <AppContext.Consumer>
+    {
+      ({ grainVisible, setGrainVisible }) => (
+        <StyledSwitch
+        id="test"
+        onClick={() => setGrainVisible(prevState => !prevState)}
+        >
+          <StyledSwitchBox>
+            <StyledTxtBox>
+              <StyledP>clean</StyledP>
+              <StyledP>grain</StyledP>
+            </StyledTxtBox>
+            <StyledGroove>
+              <StyledKnob grainVisible={grainVisible} />
+            </StyledGroove>
+          </StyledSwitchBox>
+        </StyledSwitch>
+
+      )
+    }
+  </AppContext.Consumer>
+);
 
 Switch.propTypes = {
   grainVisible: PropTypes.bool.isRequired,

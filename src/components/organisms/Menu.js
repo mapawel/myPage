@@ -6,6 +6,7 @@ import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { breakpoint } from 'breakpoints';
 import Wrapper from 'templates/Wrapper';
+import Switch from 'templates/Switch';
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -145,14 +146,23 @@ const StyledButton = styled.button`
   `}
 `;
 
-const StyledList = styled.ul`
+const StyledListContainer = styled.div`
   position: fixed;
   z-index: 1000;
-  display: ${({ manuOpen }) => (manuOpen ? 'block' : 'none')};
+  height: 100vh;
+  width: 100vw;
+  display: ${({ manuOpen }) => (manuOpen ? 'flex' : 'none')};
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const StyledList = styled.ul`
   list-style: none;
+  margin: auto;
 `;
 
 const StyledListElement = styled.li`
@@ -162,9 +172,6 @@ const StyledListElement = styled.li`
   color: ${({ theme }) => theme.color.textPrimary};
   white-space: nowrap;
   cursor: pointer;
-  /* :hover{
-  text-shadow: 1px 2px 0 blue, -1px -2px 0 red;
-  } */
 
   @media screen and (min-width: ${breakpoint.S}) {
     font-size: ${({ theme }) => theme.fontSize.l};
@@ -189,6 +196,7 @@ const Menu = ({ sectiontitles }) => {
   const [manuBarVisible, setMenuBarVisible] = useState(false);
   const [manuOpen, setMenuOpen] = useState(false);
   const menuListRef = useRef(null);
+  const switchRef = useRef(null);
   const history = useHistory();
   let prevScrollY = 0;
 
@@ -243,7 +251,14 @@ const Menu = ({ sectiontitles }) => {
         delay: 0.5,
         duration: 0.25,
         stagger: 0.15,
-      });
+      })
+      .fromTo(switchRef.current,
+        { opacity: 0 },
+        {
+          opacity: 1,
+          duration: 0.3,
+          delay: 1,
+        });
   };
 
   const hoverMenuElAnim = (e, start) => {
@@ -276,14 +291,20 @@ const Menu = ({ sectiontitles }) => {
     else tl2.seek(0).pause().clear();
   };
 
-  const handleClick = () => {
-    setMenuOpen((prevState) => !prevState);
-    setMenuBarWide(true);
-    menuElementsAnim();
+  const handleClick = (e) => {
+    const close = () => {
+      setMenuOpen((prevState) => !prevState);
+      setMenuBarWide(true);
+      menuElementsAnim();
+    };
+    if (e.target.closest('#test')) {
+      setTimeout(close, 300);
+    } else {
+      close();
+    }
   };
 
   const handleMenuClick = (linkToTitle, path) => {
-    setMenuOpen(false);
     history.push(path);
     gsap.to(window, { duration: 1, scrollTo: { y: `#${linkToTitle}`, offsetY: path === '/projects' ? 0 : -85 } });
   };
@@ -291,23 +312,31 @@ const Menu = ({ sectiontitles }) => {
   return (
     <>
       <StyledBlend manuOpen={manuOpen} />
-      <StyledList
-        ref={menuListRef}
+      <StyledListContainer
         manuOpen={manuOpen}
+        onClick={(e) => handleClick(e)}
+
       >
-        {
-          sectiontitles.map((sectiontitle) => (
-            <StyledListElement
-              onClick={() => handleMenuClick(sectiontitle.titleMenuId, sectiontitle.path)}
-              onMouseOver={(e) => hoverMenuElAnim(e, true)}
-              onMouseOut={(e) => hoverMenuElAnim(e, false)}
-              key={sectiontitle.title}
-            >
-              {sectiontitle.title}
-            </StyledListElement>
-          ))
-        }
-      </StyledList>
+        <StyledList
+          ref={menuListRef}
+        >
+          {
+            sectiontitles.map((sectiontitle) => (
+              <StyledListElement
+                onClick={() => handleMenuClick(sectiontitle.titleMenuId, sectiontitle.path)}
+                onMouseOver={(e) => hoverMenuElAnim(e, true)}
+                onMouseOut={(e) => hoverMenuElAnim(e, false)}
+                key={sectiontitle.title}
+              >
+                {sectiontitle.title}
+              </StyledListElement>
+            ))
+          }
+        </StyledList>
+        <Switch
+          ref={switchRef}
+        />
+      </StyledListContainer>
       <Wrapper>
         <ThemeProvider theme={{ manuBarWide }}>
           <StyledContainer manuBarVisible={manuBarVisible}>
