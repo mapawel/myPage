@@ -19,11 +19,9 @@ const initialState = {
 
 const reducer = (state, { type, payload }) => {
   let headingsArr = [];
-  let sectiontitlesArr = [];
   switch (type) {
     case 'ADD_DATA':
       headingsArr = payload.headers.map((header) => header.text);
-      // sectiontitlesArr = payload.sectiontitles.map((sectiontitle) => sectiontitle.title);
       return {
         ...state,
         sectiontitles: payload.sectiontitles,

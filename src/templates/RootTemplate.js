@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import GlobalStyle from 'themes/GlobalStyle';
 import styled, { ThemeProvider, keyframes } from 'styled-components';
@@ -38,7 +38,7 @@ const RootTemplate = ({ children }) => (
   <SwitchProvider
     render={
       (grainVisible, setGrainVisible) => (
-        <AppContext.Provider value={{grainVisible, setGrainVisible}}>
+        <AppContext.Provider value={{ grainVisible, setGrainVisible }}>
           <ThemeProvider theme={mainTheme}>
             <GlobalStyle />
             <ParticlesBck />

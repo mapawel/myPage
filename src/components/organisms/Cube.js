@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import styled, { ThemeProvider } from 'styled-components';
 import ProjectOnCubeBox from 'components/molecules/ProjectOnCubeBox';
 import CubeMoveProvider from 'Providers/CubeMoveProvider';
@@ -137,8 +137,9 @@ const Cube = ({ data, setInstructionVisible }) => {
   );
 };
 
-// Cube.propTypes = {
-
-// };
+Cube.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setInstructionVisible: PropTypes.func.isRequired,
+};
 
 export default Cube;

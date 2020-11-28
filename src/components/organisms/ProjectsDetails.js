@@ -17,6 +17,7 @@ const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 8rem;
 `;
 
 const StyledButton = styled(Button)`
@@ -91,6 +92,7 @@ const ProjectsDetails = ({ title, data, sectionId }) => {
 };
 
 ProjectsDetails.propTypes = {
+  sectionId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
 };

@@ -266,7 +266,7 @@ const ProjectBox = ({
     <OpenBoxProvider
       render={
         (isToolVisible, setToolVisible) => (
-          <StyledContainer mobile={mobile} onClick={() => setToolVisible(true)}>
+          <StyledContainer onClick={() => setToolVisible(true)}>
             <StyledHedingBox>
               <StyledHeading>{title && title.toUpperCase()}</StyledHeading>
               <StyledReactSVG src={eyeIcon} />

@@ -41,7 +41,9 @@ const StyledColumn = styled.div`
     }
 `;
 
-const PersonalInfo = ({ title, dataBoxes, dataIcons, sectionId }) => {
+const PersonalInfo = ({
+  title, dataBoxes, dataIcons, sectionId,
+}) => {
   const [iconsFirsArr, setIconsFirsArr] = useState([]);
   const [iconsSecondArr, setIconsSecondArr] = useState([]);
   const firstIconsArrRef = useRef(null);
@@ -98,6 +100,7 @@ const PersonalInfo = ({ title, dataBoxes, dataIcons, sectionId }) => {
 };
 
 PersonalInfo.propTypes = {
+  sectionId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   dataBoxes: PropTypes.arrayOf(PropTypes.object).isRequired,
   dataIcons: PropTypes.arrayOf(PropTypes.object).isRequired,

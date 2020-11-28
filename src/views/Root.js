@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import RootTemplate from 'templates/RootTemplate';

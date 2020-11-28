@@ -108,7 +108,7 @@ const RecentProjectsCube = ({ title, data, sectionId }) => {
             data={data}
             setInstructionVisible={setInstructionVisible}
           />
-            <StyledButton variant="cta" onClick={handleDetailsClick}>see projects details</StyledButton>
+          <StyledButton variant="cta" onClick={handleDetailsClick}>see projects details</StyledButton>
         </StyledContainer>
       </Wrapper>
     </section>
@@ -116,6 +116,7 @@ const RecentProjectsCube = ({ title, data, sectionId }) => {
 };
 
 RecentProjectsCube.propTypes = {
+  sectionId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
 };

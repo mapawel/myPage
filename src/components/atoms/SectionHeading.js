@@ -7,24 +7,24 @@ const Svg = styled.svg`
   font-size: ${({ theme }) => theme.fontSize.m};
   font-weight: 900;
   width: 100%;
-  margin-top: ${({ nomargin }) => (nomargin ? '-6rem' : '2rem')};
+  margin-top: ${({ nomargin }) => (nomargin ? '0rem' : '2rem')};
   margin-bottom: 3rem;
   text-transform: uppercase;
   stroke: ${({ theme }) => theme.color.textSecondary};
 
   @media screen and (min-width: ${breakpoint.S}) {
     font-size: ${({ theme }) => theme.fontSize.l};
-    margin-top: ${({ nomargin }) => (nomargin ? '-4rem' : '8rem')};
+    margin-top: ${({ nomargin }) => (nomargin ? '2rem' : '8rem')};
     }
 
   @media screen and (min-width: ${breakpoint.M}) {
     font-size: ${({ theme }) => theme.fontSize.xl};
-    margin-top: ${({ nomargin }) => (nomargin ? '-3rem' : '13rem')};
+    margin-top: ${({ nomargin }) => (nomargin ? '3rem' : '13rem')};
     margin-bottom: 8rem;
     }
   
   @media screen and (min-width: ${breakpoint.L}) {
-    margin-top: ${({ nomargin }) => (nomargin ? 0 : '16rem')};
+    margin-top: ${({ nomargin }) => (nomargin ? '5rem' : '16rem')};
     font-size: ${({ theme }) => theme.fontSize.xxxl};
     }
 

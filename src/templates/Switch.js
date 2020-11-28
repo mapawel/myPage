@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { breakpoint } from 'breakpoints';
-import PropTypes from 'prop-types';
 import AppContext from 'Context';
 
 const StyledSwitch = styled.div`
@@ -60,13 +59,14 @@ const StyledP = styled.div`
   line-height: 2;
 `;
 
-const Switch = () => (
+const Switch = React.forwardRef((props, ref) => (
   <AppContext.Consumer>
     {
       ({ grainVisible, setGrainVisible }) => (
         <StyledSwitch
-        id="test"
-        onClick={() => setGrainVisible(prevState => !prevState)}
+          ref={ref}
+          id="switch"
+          onClick={() => setGrainVisible((prevState) => !prevState)}
         >
           <StyledSwitchBox>
             <StyledTxtBox>
@@ -82,11 +82,6 @@ const Switch = () => (
       )
     }
   </AppContext.Consumer>
-);
-
-Switch.propTypes = {
-  grainVisible: PropTypes.bool.isRequired,
-  setGrainVisible: PropTypes.func.isRequired,
-};
+));
 
 export default Switch;

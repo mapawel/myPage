@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { debounce } from 'lodash';
 
 const CubeMoveProvider = ({ render, setInstructionVisible, startAnimation }) => {
@@ -24,7 +25,7 @@ const CubeMoveProvider = ({ render, setInstructionVisible, startAnimation }) => 
       else if (window.innerWidth < 2500) setWallSize(530);
       else setWallSize(580);
     };
-    const debounced = debounce(choseWallSize, 300)
+    const debounced = debounce(choseWallSize, 300);
     window.addEventListener('resize', debounced);
     choseWallSize();
     return () => window.removeEventListener('resize', debounced);
@@ -58,9 +59,9 @@ const CubeMoveProvider = ({ render, setInstructionVisible, startAnimation }) => 
   }, [startAnimation]);
 
   const move = (endX, endY) => {
-    const moveY = (startY - endY);
-    setRotateY((prevState) => prevState + moveY / 2);
-    setMoveY(moveY);
+    const yMove = (startY - endY);
+    setRotateY((prevState) => prevState + yMove / 2);
+    setMoveY(yMove);
     const modY = rotateY % 360;
     let moveX = 0;
     if (modY >= -360 && modY < -270) {
@@ -131,6 +132,12 @@ const CubeMoveProvider = ({ render, setInstructionVisible, startAnimation }) => 
       {render(upSideDown, start, stop, moving, startTouch, stopTouch, movingTouch, rotateX, rotateY, activeMove, wallSize)}
     </>
   );
+};
+
+CubeMoveProvider.propTypes = {
+  render: PropTypes.func.isRequired,
+  setInstructionVisible: PropTypes.func.isRequired,
+  startAnimation: PropTypes.bool.isRequired,
 };
 
 export default CubeMoveProvider;

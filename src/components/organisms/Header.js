@@ -256,6 +256,7 @@ const Header = ({ data: { headings, headerImageUrl }, sectionId }) => {
 
 Header.propTypes = {
   data: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.array])).isRequired,
+  sectionId: PropTypes.string.isRequired,
 };
 
 export default Header;

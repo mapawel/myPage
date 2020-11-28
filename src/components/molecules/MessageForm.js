@@ -142,9 +142,11 @@ const MessageForm = ({ data }) => {
                 send
               </StyledSubmitButton>
               <Button
-              onClick={resetForm}
-              variant="noborder"
-              >clear</Button>
+                onClick={resetForm}
+                variant="noborder"
+              >
+                clear
+              </Button>
             </StyledButtonBox>
           </StyledForm>
 

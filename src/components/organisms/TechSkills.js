@@ -22,6 +22,7 @@ const TechSkills = ({ title, data, sectionId }) => (
 );
 
 TechSkills.propTypes = {
+  sectionId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
